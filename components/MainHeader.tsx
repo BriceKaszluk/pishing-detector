@@ -13,6 +13,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import PhishingDetectorIcon from "@mui/icons-material/Security"; // Import the icon you want to use
 import { Database } from "../lib/database.types";
 import { useRouter } from "next/router";
 
@@ -82,6 +83,9 @@ const MainHeader: React.FC = () => {
                 <IconButton color="inherit" component={Link} href="/dashboard">
                   <DashboardIcon />
                 </IconButton>
+                <IconButton color="inherit" component={Link} href="/phishing-detector">
+                  <PhishingDetectorIcon />
+                </IconButton>
                 <IconButton color="inherit" onClick={handleLogout}>
                   <ExitToAppIcon />
                 </IconButton>
@@ -95,3 +99,4 @@ const MainHeader: React.FC = () => {
 };
 
 export default MainHeader;
+

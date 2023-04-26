@@ -15,11 +15,7 @@ const SignUpPage: NextPage = () => {
   const supabaseClient = useSupabaseClient();
   const router = useRouter();
 
-  useEffect(() => {
-    if (user) {
-      router.push("/dashboard");
-    }
-  }, [user, router]);
+
 
   if (!session) {
     return (
@@ -27,7 +23,7 @@ const SignUpPage: NextPage = () => {
         {isLoading ? <h1>Loading...</h1> : ""}
         <div className="md:w-4/12 m-auto px-4 min-h-main flex flex-col justify-center">
           <Auth
-            redirectTo="/dashboard"
+            redirectTo={`${process.env.NEXT_PUBLIC_HOSTNAME}/dashboard?isConnected=1`}
             appearance={{ theme: ThemeSupa,
               className: {
                 message: 'text-gray-800',
@@ -102,13 +98,6 @@ const SignUpPage: NextPage = () => {
       </>
     );
   }
-
-  return (
-    <>
-      {isLoading ? <h1>Loading...</h1> : ""}
-      <pre>{JSON.stringify(session, null, 2)}</pre>
-    </>
-  );
 };
 
 export default SignUpPage;

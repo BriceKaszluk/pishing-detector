@@ -1,56 +1,44 @@
 import {
   createServerSupabaseClient,
-  User
-} from '@supabase/auth-helpers-nextjs';
-import { GetServerSidePropsContext } from 'next';
-import Link from 'next/link';
+  User,
+} from "@supabase/auth-helpers-nextjs";
+import { GetServerSidePropsContext } from "next";
+import Link from "next/link";
 
-export default function Dashboard({
-  user,
-  data
-}: {
-  user: User;
-  data: any;
-}) {
+export default function Dashboard() {
   return (
     <>
       <p>
         [<Link href="/">Home</Link>] | [
         <Link href="/profile">getServerSideProps</Link>]
       </p>
-      <div>Protected content for {user?.email}</div>
+      <div>Protected content</div>
       <p>server-side fetched data with RLS:</p>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
       <p>user:</p>
-      <pre>{JSON.stringify(user, null, 2)}</pre>
+      <pre></pre>
     </>
   );
 }
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+  const { query } = ctx;
+  const isConnected = query.isConnected;
   // Create authenticated Supabase Client
   const supabase = createServerSupabaseClient(ctx);
   // Check if we have a session
   const {
-    data: { session }
+    data: { session },
   } = await supabase.auth.getSession();
 
-  if (!session)
+  if (!session && !isConnected)
     return {
       redirect: {
-        destination: '/',
-        permanent: false
-      }
+        destination: "/signup",
+        permanent: false,
+      },
     };
 
-  // Run queries with RLS on the server
-  const { data } = await supabase.from('users').select('*');
-
-  return {
-    props: {
-      initialSession: session,
-      user: session.user,
-      data: data ?? []
-    }
-  };
+    return {
+      props: {},
+    };
 };

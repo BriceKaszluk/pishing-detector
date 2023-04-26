@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Button, Container, Grid } from "@material-ui/core";
 import Link from "next/link";
-import { GetServerSidePropsContext } from 'next';
-import {
-  createServerSupabaseClient,
-} from '@supabase/auth-helpers-nextjs';
+import { GetServerSidePropsContext } from "next";
+import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { useRouter } from "next/router";
+import { useUser } from "@supabase/auth-helpers-react";
 
 const useStyles = makeStyles((theme) => ({
   mainContent: {
@@ -30,6 +30,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const HomePage: React.FC = () => {
+  const router = useRouter();
+  const user = useUser();
+
+
+
   const classes = useStyles();
 
   return (
@@ -66,20 +71,19 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const supabase = createServerSupabaseClient(ctx);
   // Check if we have a session
   const {
-    data: { session }
+    data: { session },
   } = await supabase.auth.getSession();
 
   if (session)
     return {
       redirect: {
-        destination: '/dashboard',
-        permanent: false
-      }
+        destination: "/dashboard",
+        permanent: false,
+      },
     };
-    return {
-      props: {},
-    };
+  return {
+    props: {},
+  };
 };
 
 export default HomePage;
-
