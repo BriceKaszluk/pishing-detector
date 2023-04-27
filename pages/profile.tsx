@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 import {
   Typography,
   Container,
@@ -11,11 +11,14 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-} from '@material-ui/core';
+} from '@mui/material';
 import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react';
 import { useRouter } from "next/router";
+import { Theme } from '@mui/material/styles';
+import { styled } from '@mui/system';
 
-const useStyles = makeStyles((theme) => ({
+
+const useStyles = makeStyles<Theme>((theme) => ({
   profileContainer: {
     minHeight: 'calc(100vh - (64px + 260px))',
     display: 'flex',
@@ -23,15 +26,10 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'center',
-    padding: theme.spacing(4, 0),
   },
   paper: {
-    padding: theme.spacing(2),
     textAlign: 'center',
-    color: theme.palette.text.secondary,
-  },
-  deleteAccountButton: {
-    marginTop: theme.spacing(3),
+    color: '#B6BABF',
   },
 }));
 
@@ -95,7 +93,6 @@ const Profile: React.FC = () => {
         </Paper>
       </Box>
       <Button
-        className={classes.deleteAccountButton}
         variant="outlined"
         color="secondary"
         onClick={handleClickOpen}

@@ -1,13 +1,15 @@
 import React, { useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import { Typography, Button, Container, Grid } from "@material-ui/core";
+import { makeStyles } from "@mui/styles";
+import { Typography, Button, Container, Grid } from "@mui/material";
 import Link from "next/link";
 import { GetServerSidePropsContext } from "next";
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/router";
 import { useUser } from "@supabase/auth-helpers-react";
+import { Theme } from '@mui/material/styles';
+import { styled } from '@mui/system';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles<Theme>((theme) => ({
   mainContent: {
     minHeight: "calc(100vh - (64px + 260px))", // Subtracting header and footer heights
     display: "flex",
@@ -15,13 +17,6 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     alignItems: "center",
     textAlign: "center",
-    padding: theme.spacing(4, 0),
-  },
-  headline: {
-    marginBottom: theme.spacing(2),
-  },
-  description: {
-    marginBottom: theme.spacing(4),
   },
   ctaButton: {
     textTransform: "none",
@@ -40,10 +35,10 @@ const HomePage: React.FC = () => {
   return (
     <div className={classes.mainContent}>
       <Container maxWidth="md" className="text-gray-800">
-        <Typography component="h1" variant="h2" className={classes.headline}>
+        <Typography component="h1" variant="h2">
           Protégez-vous des tentatives de phishing
         </Typography>
-        <Typography variant="h5" className={classes.description}>
+        <Typography variant="h5">
           Détectez les menaces en ligne et sécurisez vos informations avec
           Phishing Detector. Ne tombez plus jamais dans le piège du phishing !
         </Typography>

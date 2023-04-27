@@ -8,16 +8,18 @@ import {
   Toolbar,
   IconButton,
   Typography,
-} from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+} from "@mui/material";
+import { makeStyles } from "@mui/styles";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import PhishingDetectorIcon from "@mui/icons-material/Security"; // Import the icon you want to use
 import { Database } from "../lib/database.types";
 import { useRouter } from "next/router";
+import { Theme } from '@mui/material/styles';
 
-const useStyles = makeStyles((theme) => ({
+
+const useStyles = makeStyles<Theme>((theme) => ({
   root: {
     flexGrow: 1,
     background: "transparent",

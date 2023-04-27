@@ -1,17 +1,14 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import { Typography, Grid, Link } from "@material-ui/core";
+import { makeStyles } from "@mui/styles";
+import { Typography, Grid, Link } from "@mui/material";
+import { Theme } from '@mui/material/styles';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles<Theme>((theme) => ({
   footer: {
-    padding: theme.spacing(6, 0),
     marginTop: "auto",
   },
   link: {
     color: "#ffffff",
-  },
-  title: {
-    marginBottom: theme.spacing(2),
   },
 }));
 
@@ -25,7 +22,7 @@ const Footer: React.FC = () => {
           <Grid item xs={12} sm={6} md={3}>
             <Typography
               variant="h6"
-              className={`${classes.title} ${classes.link}`}
+              className={`${classes.link}`}
             >
               Phishing Detector
             </Typography>
@@ -37,7 +34,7 @@ const Footer: React.FC = () => {
           <Grid item xs={12} sm={6} md={3}>
             <Typography
               variant="h6"
-              className={`${classes.title} ${classes.link}`}
+              className={`${classes.link}`}
             >
               Liens utiles
             </Typography>
@@ -57,7 +54,7 @@ const Footer: React.FC = () => {
           <Grid item xs={12} sm={6} md={3}>
             <Typography
               variant="h6"
-              className={`${classes.title} ${classes.link}`}
+              className={`${classes.link}`}
             >
               Aide et support
             </Typography>
@@ -82,7 +79,7 @@ const Footer: React.FC = () => {
           <Grid item xs={12} sm={6} md={3}>
             <Typography
               variant="h6"
-              className={`${classes.title} ${classes.link}`}
+              className={`${classes.link}`}
             >
               Nous suivre
             </Typography>

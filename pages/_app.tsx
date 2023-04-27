@@ -4,8 +4,8 @@ import { useState } from "react";
 import "../styles/globals.css";
 import MainLayout from "../components/MainLayout";
 import { AppProps } from "next/app";
-import { createTheme } from "@material-ui/core/styles";
-import { ThemeProvider } from "@material-ui/core/styles";
+import { createTheme } from "@mui/material/styles"; // Update this import
+import { ThemeProvider } from "@emotion/react"; // Update this import
 
 const theme = createTheme({
   palette: {
