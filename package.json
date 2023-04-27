@@ -46,5 +46,9 @@
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
     "webpack-dev-server": "^4.13.3"
+  },
+  "peerDependencies": {
+    "@babel/core": "^7.0.0",
+    "react": ">=16.8.0"
   }
 }
