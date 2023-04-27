@@ -31,8 +31,13 @@ const deleteAccount: NextApiHandler = async (req, res) => {
 
     return res.status(200).json({ message: 'Account successfully deleted' });
   } catch (error) {
-    console.error('Error deleting account:', error.message);
-    return res.status(500).json({ error: 'Internal server error' });
+    if (error instanceof Error) {
+      console.error('Error deleting account:', error.message);
+      return res.status(500).json({ error: 'Internal server error' });
+    } else {
+      console.error('Error deleting account:', error);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
   }
 };
 
