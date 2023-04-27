@@ -21,7 +21,7 @@ const HomePage: React.FC = () => {
         >
           Protégez-vous des tentatives de phishing
         </Typography>
-        <Typography variant="h5" className="mb-8">
+        <Typography variant="h5" sx={{ mb: 4 }}>
           Détectez les menaces en ligne et sécurisez vos informations avec
           Phishing Detector. Ne tombez plus jamais dans le piège du phishing !
         </Typography>

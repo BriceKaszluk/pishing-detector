@@ -1,10 +1,11 @@
 import React from "react";
-import {
-  createServerSupabaseClient,
-} from "@supabase/auth-helpers-nextjs";
+import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { GetServerSidePropsContext } from "next";
-import { useSupabaseClient } from "@supabase/auth-helpers-react";
-import axios from "axios"
+import { useSupabaseClient, useSessionContext } from "@supabase/auth-helpers-react";
+import axios from "axios";
+import { Box, Button, Typography } from '@mui/material';
+import { CheckCircle } from '@mui/icons-material';
+import { useRouter } from "next/router";
 
 export default function Dashboard({
   hasAcceptedScope,
@@ -12,6 +13,29 @@ export default function Dashboard({
   hasAcceptedScope: boolean;
 }) {
   const supabaseClient = useSupabaseClient();
+  const { session } = useSessionContext();
+  const router = useRouter();
+
+  const getEmailsFromLastWeekAndUpdateState = async () => {
+    if (session) {
+      try {
+        const response = await fetch('/api/getMailsList');
+        if (response.ok) {
+          const data = await response.json();
+          console.log('Emails from last week:', data.emails);
+          // Mettez à jour l'état du composant avec les e-mails récupérés
+        } else {
+          console.error('Failed to fetch emails:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error fetching emails:', error);
+      }
+    }
+  };
+
+  if(hasAcceptedScope || router.query.hasAcceptedScope) {
+    getEmailsFromLastWeekAndUpdateState();
+  }
 
   async function requestAdditionalScope() {
     if (!hasAcceptedScope) {
@@ -21,10 +45,10 @@ export default function Dashboard({
             provider: "google",
             options: {
               scopes: "https://www.googleapis.com/auth/gmail.readonly",
-              redirectTo: `${process.env.NEXT_PUBLIC_HOSTNAME}/phishing-detector?isConnected=1`,
+              redirectTo: `${process.env.NEXT_PUBLIC_HOSTNAME}/phishing-detector?isConnected=1&hasAcceptedScope=1`,
             },
           });
-      
+
         if (additionalScopeError) {
           throw additionalScopeError;
         } else {
@@ -36,17 +60,28 @@ export default function Dashboard({
         } else {
           console.error("Error requesting additional scope:", error);
         }
-      }      
+      }
     }
   }
 
   return (
-    <div>
-      <button className="w-4 h-4" onClick={requestAdditionalScope}>
-        {" "}
-        add scope
-      </button>
-    </div>
+    <Box>
+      {hasAcceptedScope || router.query.hasAcceptedScope ? (
+        <Typography variant="body1" color="success">
+          <CheckCircle sx={{ mr: 1, fontSize: 'inherit' }} />
+          Accès autorisé à Gmail
+        </Typography>
+      ) : (
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={requestAdditionalScope}
+          className="bg-button"
+        >
+          Autoriser l'accès à ma boite Gmail
+        </Button>
+      )}
+    </Box>
   );
 }
 
@@ -80,10 +115,8 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
       const requiredScope = "https://www.googleapis.com/auth/gmail.readonly";
 
       if (acceptedScopes.includes(requiredScope)) {
-        console.log("il est déjà accepté", response.data);
         hasAcceptedScope = true;
       } else {
-        console.log("il n'as pas encore accepté", response.data);
         hasAcceptedScope = false;
       }
     }

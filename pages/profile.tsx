@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
+import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 
 const Profile: React.FC = () => {
   const user = useUser();
@@ -120,3 +121,26 @@ const Profile: React.FC = () => {
 };
 
 export default Profile;
+
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+  const { query } = ctx;
+  const isConnected = query.isConnected;
+  // Create authenticated Supabase Client
+  const supabase = createServerSupabaseClient(ctx);
+  // Check if we have a session
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  if (!session)
+    return {
+      redirect: {
+        destination: "/signup",
+        permanent: false,
+      },
+    };
+
+    return {
+      props: {},
+    };
+};
