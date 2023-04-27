@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Typography,
   Container,
@@ -10,8 +10,8 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-} from '@mui/material';
-import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react';
+} from "@mui/material";
+import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
 
 const Profile: React.FC = () => {
@@ -31,38 +31,40 @@ const Profile: React.FC = () => {
   const handleDeleteAccount = async () => {
     try {
       handleClose();
-      const response = await fetch('/api/delete-account', {
-        method: 'DELETE',
+      const response = await fetch("/api/delete-account", {
+        method: "DELETE",
       });
 
       if (response.ok) {
         // Successfully deleted account
         await supabaseClient.auth.signOut();
-        router.push('/signup');
+        router.push("/signup");
       } else {
         // Error deleting account
         const { error } = await response.json();
-        console.error('Error deleting account:', error);
+        console.error("Error deleting account:", error);
       }
     } catch (error) {
-      console.error('Error deleting account:', error.message);
+      console.error("Error deleting account:", error.message);
     }
   };
-
 
   if (!user) {
     return <p>Veuillez vous connecter pour accéder à votre profil.</p>;
   }
 
   const { email } = user;
-  const fullName = user.user_metadata?.full_name || 'N/A';
+  const fullName = user.user_metadata?.full_name || "N/A";
 
   return (
-    <Container maxWidth="sm" className="flex flex-col justify-center items-center text-center p-8">
+    <Container
+      maxWidth="sm"
+      className="flex flex-col justify-center items-center text-center p-8"
+    >
       <Typography component="h1" variant="h4" color="primary">
-        Profil de l'utilisateur
+        Profil de l&apos;utilisateur
       </Typography>
-      <Box className='mt-4 w-10/12'>
+      <Box className="mt-4 w-10/12">
         <Paper className="py-2 mb-4 text-center">
           <Typography variant="h6">Nom :</Typography>
           <Typography>{fullName}</Typography>
@@ -86,25 +88,26 @@ const Profile: React.FC = () => {
         aria-labelledby="delete-account-dialog-title"
         aria-describedby="delete-account-dialog-description"
       >
-        <DialogTitle id="delete-account-dialog-title">Supprimer le compte</DialogTitle>
+        <DialogTitle id="delete-account-dialog-title">
+          Supprimer le compte
+        </DialogTitle>
         <DialogContent>
           <DialogContentText id="delete-account-dialog-description">
-            Êtes-vous sûr de vouloir supprimer définitivement votre compte ? Cette action est
-            irréversible.
+            Êtes-vous sûr de vouloir supprimer définitivement votre compte ?
+            Cette action est irréversible.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button
-          onClick={handleClose} color="primary">
-          Annuler
-        </Button>
-        <Button onClick={handleDeleteAccount} color="secondary">
-          Supprimer
-        </Button>
-      </DialogActions>
-    </Dialog>
-  </Container>
-);
+          <Button onClick={handleClose} color="primary">
+            Annuler
+          </Button>
+          <Button onClick={handleDeleteAccount} color="secondary">
+            Supprimer
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </Container>
+  );
 };
 
 export default Profile;

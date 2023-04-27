@@ -13,7 +13,12 @@ const HomePage: React.FC = () => {
   return (
     <div className="flex flex-col justify-center items-center text-center p-8">
       <Container maxWidth="md" className="text-gray-800">
-        <Typography component="h1" variant="h2" className="mb-4" color="primary">
+        <Typography
+          component="h1"
+          variant="h2"
+          className="mb-4"
+          color="primary"
+        >
           Protégez-vous des tentatives de phishing
         </Typography>
         <Typography variant="h5" className="mb-8">
