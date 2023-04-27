@@ -73,7 +73,7 @@ const Profile: React.FC = () => {
       <Typography component="h1" variant="h4" color="primary">
         Profil de l&apos;utilisateur
       </Typography>
-      <Box className="mt-4 w-10/12">
+      <Box className="mt-4 w-10/12 mx-auto">
         <Paper className="py-2 mb-4 text-center">
           <Typography variant="h6">Nom :</Typography>
           <Typography>{fullName}</Typography>
