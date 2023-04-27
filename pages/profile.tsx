@@ -34,7 +34,7 @@ const Profile: React.FC = () => {
       const response = await fetch("/api/delete-account", {
         method: "DELETE",
       });
-
+    
       if (response.ok) {
         // Successfully deleted account
         await supabaseClient.auth.signOut();
@@ -42,11 +42,20 @@ const Profile: React.FC = () => {
       } else {
         // Error deleting account
         const { error } = await response.json();
-        console.error("Error deleting account:", error);
+        if (error instanceof Error) {
+          console.error("Error deleting account:", error.message);
+        } else {
+          console.error("Error deleting account:", error);
+        }
       }
     } catch (error) {
-      console.error("Error deleting account:", error.message);
+      if (error instanceof Error) {
+        console.error("Error deleting account:", error.message);
+      } else {
+        console.error("Error deleting account:", error);
+      }
     }
+    
   };
 
   if (!user) {

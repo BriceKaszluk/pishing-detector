@@ -25,18 +25,19 @@ export default function Dashboard({
               redirectTo: `${process.env.NEXT_PUBLIC_HOSTNAME}/phishing-detector?isConnected=1`,
             },
           });
-
+      
         if (additionalScopeError) {
-          console.error(
-            "Error requesting additional scope:",
-            additionalScopeError
-          );
+          throw additionalScopeError;
         } else {
           console.log("Additional scope requested successfully");
         }
       } catch (error) {
-        console.error("Error:", error.message);
-      }
+        if (error instanceof Error) {
+          console.error("Error requesting additional scope:", error.message);
+        } else {
+          console.error("Error requesting additional scope:", error);
+        }
+      }      
     }
   }
 
