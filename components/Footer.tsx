@@ -1,32 +1,19 @@
 import React from "react";
-import { makeStyles } from "@mui/styles";
 import { Typography, Grid, Link } from "@mui/material";
-import { Theme } from '@mui/material/styles';
-
-const useStyles = makeStyles<Theme>((theme) => ({
-  footer: {
-    marginTop: "auto",
-  },
-  link: {
-    color: "#ffffff",
-  },
-}));
 
 const Footer: React.FC = () => {
-  const classes = useStyles();
-
   return (
-    <footer className={`${classes.footer} bg-footer`}>
+    <footer className="bg-footer py-12 mt-auto">
       <div className="container mx-auto px-4">
         <Grid container spacing={4} justifyContent="space-evenly">
           <Grid item xs={12} sm={6} md={3}>
             <Typography
               variant="h6"
-              className={`${classes.link}`}
+              className="text-white mb-4"
             >
               Phishing Detector
             </Typography>
-            <Typography variant="subtitle1" className={classes.link}>
+            <Typography variant="subtitle1" className="text-white">
               Protégez-vous des tentatives de phishing et sécurisez vos
               informations en ligne.
             </Typography>
@@ -34,18 +21,18 @@ const Footer: React.FC = () => {
           <Grid item xs={12} sm={6} md={3}>
             <Typography
               variant="h6"
-              className={`${classes.link}`}
+              className="text-white mb-4"
             >
               Liens utiles
             </Typography>
             <ul>
               <li>
-                <Link href="/about" className={classes.link}>
+                <Link href="/about" className="text-white">
                   À propos
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className={classes.link}>
+                <Link href="/contact" className="text-white">
                   Contact
                 </Link>
               </li>
@@ -54,23 +41,23 @@ const Footer: React.FC = () => {
           <Grid item xs={12} sm={6} md={3}>
             <Typography
               variant="h6"
-              className={`${classes.link}`}
+              className="text-white mb-4"
             >
               Aide et support
             </Typography>
             <ul>
               <li>
-                <Link href="/faq" className={classes.link}>
+                <Link href="/faq" className="text-white">
                   FAQ
                 </Link>
               </li>
               <li>
-                <Link href="/terms" className={classes.link}>
+                <Link href="/terms" className="text-white">
                   Conditions d'utilisation
                 </Link>
               </li>
               <li>
-                <Link href="/privacy" className={classes.link}>
+                <Link href="/privacy" className="text-white">
                   Politique de confidentialité
                 </Link>
               </li>
@@ -79,7 +66,7 @@ const Footer: React.FC = () => {
           <Grid item xs={12} sm={6} md={3}>
             <Typography
               variant="h6"
-              className={`${classes.link}`}
+              className="text-white mb-4"
             >
               Nous suivre
             </Typography>
@@ -89,7 +76,7 @@ const Footer: React.FC = () => {
                   href="https://twitter.com/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={classes.link}
+                  className="text-white"
                 >
                   Twitter
                 </Link>
@@ -99,7 +86,7 @@ const Footer: React.FC = () => {
                   href="https://www.linkedin.com/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={classes.link}
+                  className="text-white"
                 >
                   LinkedIn
                 </Link>
@@ -111,12 +98,11 @@ const Footer: React.FC = () => {
         <Typography
           variant="body2"
           align="center"
-          className={`${classes.link}`}
+          className="text-white"
         >
           © {new Date().getFullYear()} Phishing Detector. Tous droits réservés.
         </Typography>
         </div>
-
       </div>
     </footer>
   );

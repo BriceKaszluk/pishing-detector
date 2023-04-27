@@ -1,5 +1,4 @@
 import React from 'react';
-import { makeStyles } from '@mui/styles';
 import {
   Typography,
   Container,
@@ -14,27 +13,8 @@ import {
 } from '@mui/material';
 import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react';
 import { useRouter } from "next/router";
-import { Theme } from '@mui/material/styles';
-import { styled } from '@mui/system';
-
-
-const useStyles = makeStyles<Theme>((theme) => ({
-  profileContainer: {
-    minHeight: 'calc(100vh - (64px + 260px))',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    textAlign: 'center',
-  },
-  paper: {
-    textAlign: 'center',
-    color: '#B6BABF',
-  },
-}));
 
 const Profile: React.FC = () => {
-  const classes = useStyles();
   const user = useUser();
   const supabaseClient = useSupabaseClient();
   const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
@@ -78,21 +58,22 @@ const Profile: React.FC = () => {
   const fullName = user.user_metadata?.full_name || 'N/A';
 
   return (
-    <Container maxWidth="sm" className={`${classes.profileContainer} text-gray-800`}>
-      <Typography component="h1" variant="h4">
+    <Container maxWidth="sm" className="flex flex-col justify-center items-center text-center p-8">
+      <Typography component="h1" variant="h4" color="primary">
         Profil de l'utilisateur
       </Typography>
       <Box className='mt-4 w-10/12'>
-        <Paper className={`${classes.paper} mb-4`}>
+        <Paper className="py-2 mb-4 text-center">
           <Typography variant="h6">Nom :</Typography>
           <Typography>{fullName}</Typography>
         </Paper>
-        <Paper className={classes.paper}>
+        <Paper className="py-2 text-center">
           <Typography variant="h6">Adresse e-mail :</Typography>
           <Typography>{email}</Typography>
         </Paper>
       </Box>
       <Button
+        className="mt-8"
         variant="outlined"
         color="secondary"
         onClick={handleClickOpen}

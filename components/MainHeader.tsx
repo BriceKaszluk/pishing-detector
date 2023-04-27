@@ -9,28 +9,14 @@ import {
   IconButton,
   Typography,
 } from "@mui/material";
-import { makeStyles } from "@mui/styles";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import PhishingDetectorIcon from "@mui/icons-material/Security"; // Import the icon you want to use
 import { Database } from "../lib/database.types";
 import { useRouter } from "next/router";
-import { Theme } from '@mui/material/styles';
-
-
-const useStyles = makeStyles<Theme>((theme) => ({
-  root: {
-    flexGrow: 1,
-    background: "transparent",
-  },
-  title: {
-    flexGrow: 1,
-  },
-}));
 
 const MainHeader: React.FC = () => {
-  const classes = useStyles();
   const [loggedIn, setLoggedIn] = useState(false);
   const supabaseClient = useSupabaseClient<Database>();
   const router = useRouter();
@@ -66,9 +52,13 @@ const MainHeader: React.FC = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="bg-header">
-        <AppBar position="static" color="transparent">
+        <AppBar position="static" color="transparent" elevation={0}>
           <Toolbar>
-            <Typography id="main_title" variant="h6" className={classes.title}>
+            <Typography
+              id="main_title"
+              variant="h6"
+              className="flex-grow"
+            >
               Phishing Detector
             </Typography>
             {!loggedIn ? (
@@ -101,4 +91,3 @@ const MainHeader: React.FC = () => {
 };
 
 export default MainHeader;
-

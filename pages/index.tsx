@@ -1,44 +1,22 @@
 import React, { useEffect } from "react";
-import { makeStyles } from "@mui/styles";
 import { Typography, Button, Container, Grid } from "@mui/material";
 import Link from "next/link";
 import { GetServerSidePropsContext } from "next";
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/router";
 import { useUser } from "@supabase/auth-helpers-react";
-import { Theme } from '@mui/material/styles';
-import { styled } from '@mui/system';
-
-const useStyles = makeStyles<Theme>((theme) => ({
-  mainContent: {
-    minHeight: "calc(100vh - (64px + 260px))", // Subtracting header and footer heights
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    textAlign: "center",
-  },
-  ctaButton: {
-    textTransform: "none",
-    fontSize: "1.25rem",
-  },
-}));
 
 const HomePage: React.FC = () => {
   const router = useRouter();
   const user = useUser();
 
-
-
-  const classes = useStyles();
-
   return (
-    <div className={classes.mainContent}>
+    <div className="flex flex-col justify-center items-center text-center p-8">
       <Container maxWidth="md" className="text-gray-800">
-        <Typography component="h1" variant="h2">
+        <Typography component="h1" variant="h2" className="mb-4" color="primary">
           Protégez-vous des tentatives de phishing
         </Typography>
-        <Typography variant="h5">
+        <Typography variant="h5" className="mb-8">
           Détectez les menaces en ligne et sécurisez vos informations avec
           Phishing Detector. Ne tombez plus jamais dans le piège du phishing !
         </Typography>
@@ -49,7 +27,7 @@ const HomePage: React.FC = () => {
                 variant="contained"
                 color="primary"
                 size="large"
-                className={classes.ctaButton}
+                className="text-xl text-white bg-button"
               >
                 Inscrivez-vous maintenant
               </Button>
