@@ -84,7 +84,7 @@ const Profile: React.FC = () => {
         </Paper>
       </Box>
       <Button
-        className="mt-8"
+        sx={{ mt: 4 }}
         variant="outlined"
         color="secondary"
         onClick={handleClickOpen}
