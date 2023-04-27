@@ -1,14 +1,10 @@
-import { useSessionContext, useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
+import { useSessionContext, useSupabaseClient } from "@supabase/auth-helpers-react";
 import type { NextPage } from "next";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
 import { Button } from "@mui/material";
 
 const SignUpPage: NextPage = () => {
   const { isLoading, session } = useSessionContext();
-  const user = useUser();
   const supabaseClient = useSupabaseClient();
-  const router = useRouter();
 
   const handleSignInWithGoogle = async () => {
     const { error } = await supabaseClient.auth.signInWithOAuth({ provider: "google",   options: {

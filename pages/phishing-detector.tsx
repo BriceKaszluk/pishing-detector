@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   createServerSupabaseClient,
-  User,
 } from "@supabase/auth-helpers-nextjs";
 import { GetServerSidePropsContext } from "next";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
@@ -72,22 +71,28 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   let hasAcceptedScope = false;
 
   try {
-    const response = await axios.get(
-      `https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=${session.provider_token}`
-    );
+    if (session) {
+      const response = await axios.get(
+        `https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=${session.provider_token}`
+      );
 
-    const acceptedScopes = response.data.scope.split(" ");
-    const requiredScope = "https://www.googleapis.com/auth/gmail.readonly";
+      const acceptedScopes = response.data.scope.split(" ");
+      const requiredScope = "https://www.googleapis.com/auth/gmail.readonly";
 
-    if (acceptedScopes.includes(requiredScope)) {
-      console.log("il est déjà accepté", response.data);
-      hasAcceptedScope = true;
-    } else {
-      console.log("il n'as pas encore accepté", response.data);
-      hasAcceptedScope = false;
+      if (acceptedScopes.includes(requiredScope)) {
+        console.log("il est déjà accepté", response.data);
+        hasAcceptedScope = true;
+      } else {
+        console.log("il n'as pas encore accepté", response.data);
+        hasAcceptedScope = false;
+      }
     }
   } catch (error) {
-    console.error("Error:", error.message);
+    if (error instanceof Error) {
+      console.error("Error:", error.message);
+    } else {
+      console.error("Error:", error);
+    }
   }
 
   return {
