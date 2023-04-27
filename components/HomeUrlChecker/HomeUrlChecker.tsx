@@ -1,5 +1,5 @@
-import { useState, ChangeEvent, FormEvent } from 'react';
-import axios, { AxiosResponse } from 'axios';
+import { useState, ChangeEvent, FormEvent } from "react";
+import axios, { AxiosResponse } from "axios";
 
 interface GoogleSafeBrowsingResponse {
   matches?: Array<{
@@ -14,8 +14,8 @@ interface GoogleSafeBrowsingResponse {
 }
 
 const URLChecker: React.FC = () => {
-  const [url, setURL] = useState<string>('');
-  const [status, setStatus] = useState<string>('');
+  const [url, setURL] = useState<string>("");
+  const [status, setStatus] = useState<string>("");
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setURL(e.target.value);
@@ -29,28 +29,29 @@ const URLChecker: React.FC = () => {
 
     const requestBody = {
       client: {
-        clientId: 'yourcompanyname',
-        clientVersion: '1.0',
+        clientId: "yourcompanyname",
+        clientVersion: "1.0",
       },
       threatInfo: {
         threatTypes: [
-          'MALWARE',
-          'SOCIAL_ENGINEERING',
-          'UNWANTED_SOFTWARE',
-          'POTENTIALLY_HARMFUL_APPLICATION',
+          "MALWARE",
+          "SOCIAL_ENGINEERING",
+          "UNWANTED_SOFTWARE",
+          "POTENTIALLY_HARMFUL_APPLICATION",
         ],
-        platformTypes: ['ANY_PLATFORM'],
-        threatEntryTypes: ['URL'],
+        platformTypes: ["ANY_PLATFORM"],
+        threatEntryTypes: ["URL"],
         threatEntries: [{ url }],
-      },      
+      },
     };
 
     try {
-      const response: AxiosResponse<GoogleSafeBrowsingResponse> = await axios.post(apiUrl, requestBody);
-      setStatus(response.data.matches ? 'Dangereux' : 'Sûr');
+      const response: AxiosResponse<GoogleSafeBrowsingResponse> =
+        await axios.post(apiUrl, requestBody);
+      setStatus(response.data.matches ? "Dangereux" : "Sûr");
     } catch (error) {
       console.error(error);
-      setStatus('Erreur lors de la vérification de l\'URL');
+      setStatus("Erreur lors de la vérification de l'URL");
     }
   };
 
@@ -76,10 +77,10 @@ const URLChecker: React.FC = () => {
       {status && (
         <div className="mt-4">
           <p>
-            L'URL est{' '}
+            L&apos;URL est{" "}
             <span
               className={`font-bold ${
-                status === 'Sûr' ? 'text-green-500' : 'text-red-500'
+                status === "Sûr" ? "text-green-500" : "text-red-500"
               }`}
             >
               {status}

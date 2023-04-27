@@ -31,7 +31,7 @@ const MainHeader: React.FC = () => {
     return () => {
       authListener?.subscription.unsubscribe();
     };
-  }, []);
+  }, [supabaseClient.auth]);
 
   const handleLogout = async () => {
     await supabaseClient.auth.signOut();

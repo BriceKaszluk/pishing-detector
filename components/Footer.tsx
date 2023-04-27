@@ -7,10 +7,7 @@ const Footer: React.FC = () => {
       <div className="container mx-auto px-4">
         <Grid container spacing={4} justifyContent="space-evenly">
           <Grid item xs={12} sm={6} md={3}>
-            <Typography
-              variant="h6"
-              className="text-white mb-4"
-            >
+            <Typography variant="h6" className="text-white mb-4">
               Phishing Detector
             </Typography>
             <Typography variant="subtitle1" className="text-white">
@@ -19,10 +16,7 @@ const Footer: React.FC = () => {
             </Typography>
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
-            <Typography
-              variant="h6"
-              className="text-white mb-4"
-            >
+            <Typography variant="h6" className="text-white mb-4">
               Liens utiles
             </Typography>
             <ul>
@@ -39,10 +33,7 @@ const Footer: React.FC = () => {
             </ul>
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
-            <Typography
-              variant="h6"
-              className="text-white mb-4"
-            >
+            <Typography variant="h6" className="text-white mb-4">
               Aide et support
             </Typography>
             <ul>
@@ -53,7 +44,7 @@ const Footer: React.FC = () => {
               </li>
               <li>
                 <Link href="/terms" className="text-white">
-                  Conditions d'utilisation
+                  Conditions d&apos;utilisation
                 </Link>
               </li>
               <li>
@@ -64,10 +55,7 @@ const Footer: React.FC = () => {
             </ul>
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
-            <Typography
-              variant="h6"
-              className="text-white mb-4"
-            >
+            <Typography variant="h6" className="text-white mb-4">
               Nous suivre
             </Typography>
             <ul>
@@ -95,13 +83,10 @@ const Footer: React.FC = () => {
           </Grid>
         </Grid>
         <div className="mt-6">
-        <Typography
-          variant="body2"
-          align="center"
-          className="text-white"
-        >
-          © {new Date().getFullYear()} Phishing Detector. Tous droits réservés.
-        </Typography>
+          <Typography variant="body2" align="center" className="text-white">
+            © {new Date().getFullYear()} Phishing Detector. Tous droits
+            réservés.
+          </Typography>
         </div>
       </div>
     </footer>
