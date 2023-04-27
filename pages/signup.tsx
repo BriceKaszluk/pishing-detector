@@ -32,6 +32,8 @@ const SignUpPage: NextPage = () => {
         </div>
       </>
     );
+  } else {
+    return null;
   }
 };
 
