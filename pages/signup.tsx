@@ -1,3 +1,5 @@
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import { useSessionContext, useSupabaseClient } from "@supabase/auth-helpers-react";
 import type { NextPage } from "next";
 import { Button } from "@mui/material";
@@ -5,16 +7,27 @@ import { Button } from "@mui/material";
 const SignUpPage: NextPage = () => {
   const { isLoading, session } = useSessionContext();
   const supabaseClient = useSupabaseClient();
+  const router = useRouter();
 
   const handleSignInWithGoogle = async () => {
     const { error } = await supabaseClient.auth.signInWithOAuth({ provider: "google",   options: {
-      redirectTo: `${process.env.NEXT_PUBLIC_HOSTNAME}/dashboard?isConnected=1`
+      redirectTo: `${process.env.NEXT_PUBLIC_HOSTNAME}/dashboard?isConnected=1`,
+      queryParams: {
+        access_type: 'offline',
+        prompt: 'consent',
+      },
     } });
 
     if (error) {
       console.error("Error signing in with Google:", error);
     }
   };
+
+  useEffect(() => {
+    if (router.query.refresh === "1") {
+      handleSignInWithGoogle();
+    }
+  }, [router.query.refresh]);
 
   if (!session) {
     return (

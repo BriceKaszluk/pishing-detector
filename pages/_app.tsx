@@ -4,8 +4,8 @@ import { useState } from "react";
 import "../styles/globals.css";
 import MainLayout from "../components/MainLayout";
 import { AppProps } from "next/app";
-import { createTheme } from "@mui/material/styles"; // Update this import
-import { ThemeProvider } from "@emotion/react"; // Update this import
+import { createTheme } from "@mui/material/styles";
+import { ThemeProvider } from "@emotion/react";
 
 const theme = createTheme({
   palette: {
@@ -29,9 +29,9 @@ export default function MyApp({
       initialSession={pageProps.initialSession}
     >
       <ThemeProvider theme={theme}>
-        <MainLayout>
-          <Component {...pageProps} />
-        </MainLayout>
+          <MainLayout>
+            <Component {...pageProps} />
+          </MainLayout>
       </ThemeProvider>
     </SessionContextProvider>
   );

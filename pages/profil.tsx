@@ -13,9 +13,10 @@ import {
 } from "@mui/material";
 import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
-import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { GetServerSidePropsContext } from "next";
+import { checkProviderToken, checkSession } from "../services/checkAuth";
 
-const Profile: React.FC = () => {
+const profil: React.FC = () => {
   const user = useUser();
   const supabaseClient = useSupabaseClient();
   const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
@@ -35,7 +36,7 @@ const Profile: React.FC = () => {
       const response = await fetch("/api/delete-account", {
         method: "DELETE",
       });
-    
+
       if (response.ok) {
         // Successfully deleted account
         await supabaseClient.auth.signOut();
@@ -56,7 +57,6 @@ const Profile: React.FC = () => {
         console.error("Error deleting account:", error);
       }
     }
-    
   };
 
   if (!user) {
@@ -120,27 +120,21 @@ const Profile: React.FC = () => {
   );
 };
 
-export default Profile;
+export default profil;
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
-  const { query } = ctx;
-  const isConnected = query.isConnected;
-  // Create authenticated Supabase Client
-  const supabase = createServerSupabaseClient(ctx);
-  // Check if we have a session
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
+  const redirectNoProvider = await checkProviderToken(ctx);
+  if (redirectNoProvider) {
+    return redirectNoProvider;
+  }
+  const redirectNoSession = await checkSession(ctx);
+  if (redirectNoSession) {
+    return redirectNoSession;
+  }
 
-  if (!session)
-    return {
-      redirect: {
-        destination: "/signup",
-        permanent: false,
-      },
-    };
 
-    return {
-      props: {},
-    };
+
+  return {
+    props: {},
+  };
 };

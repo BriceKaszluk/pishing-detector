@@ -69,7 +69,7 @@ const MainHeader: React.FC = () => {
               </>
             ) : (
               <>
-                <IconButton color="inherit" component={Link} href="/profile">
+                <IconButton color="inherit" component={Link} href="/profil">
                   <AccountCircleIcon />
                 </IconButton>
                 <IconButton color="inherit" component={Link} href="/dashboard">

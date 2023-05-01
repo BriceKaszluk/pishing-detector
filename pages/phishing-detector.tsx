@@ -1,11 +1,24 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { GetServerSidePropsContext } from "next";
-import { useSupabaseClient, useSessionContext } from "@supabase/auth-helpers-react";
+import { checkProviderToken, checkSession } from "../services/checkAuth";
+import {
+  useSupabaseClient,
+  useSessionContext,
+} from "@supabase/auth-helpers-react";
 import axios from "axios";
-import { Box, Button, Typography } from '@mui/material';
-import { CheckCircle } from '@mui/icons-material';
+import { Box, Button, Typography } from "@mui/material";
+import { CheckCircle } from "@mui/icons-material";
 import { useRouter } from "next/router";
+import { MailList, Mail } from "../components/MailList";
+
+type UserMail = Mail & {
+  id: string;
+  threadId: string;
+  snippet: string;
+  internalDate: string;
+  labelIds: string[];
+};
 
 export default function Dashboard({
   hasAcceptedScope,
@@ -15,27 +28,33 @@ export default function Dashboard({
   const supabaseClient = useSupabaseClient();
   const { session } = useSessionContext();
   const router = useRouter();
+  const [userMails, setUserMails] = useState<UserMail[]>([]);
 
   const getEmailsFromLastWeekAndUpdateState = async () => {
     if (session) {
       try {
-        const response = await fetch('/api/getMailsList');
+        const response = await fetch("/api/getMailsList");
         if (response.ok) {
           const data = await response.json();
-          console.log('Emails from last week:', data.emails);
+
+          setUserMails(data.emails);
           // Mettez à jour l'état du composant avec les e-mails récupérés
         } else {
-          console.error('Failed to fetch emails:', response.statusText);
+          console.error("Failed to fetch emails:", response.statusText);
         }
       } catch (error) {
-        console.error('Error fetching emails:', error);
+        console.error("Error fetching emails:", error);
       }
     }
   };
-
-  if(hasAcceptedScope || router.query.hasAcceptedScope) {
-    getEmailsFromLastWeekAndUpdateState();
-  }
+  useEffect(() => {
+    if (
+      (hasAcceptedScope || router.query.hasAcceptedScope) &&
+      userMails.length === 0
+    ) {
+      getEmailsFromLastWeekAndUpdateState();
+    }
+  }, [userMails, hasAcceptedScope, router.query.hasAcceptedScope, session]);
 
   async function requestAdditionalScope() {
     if (!hasAcceptedScope) {
@@ -46,6 +65,9 @@ export default function Dashboard({
             options: {
               scopes: "https://www.googleapis.com/auth/gmail.readonly",
               redirectTo: `${process.env.NEXT_PUBLIC_HOSTNAME}/phishing-detector?isConnected=1&hasAcceptedScope=1`,
+              queryParams: {
+                access_type: 'offline',
+              },
             },
           });
 
@@ -67,10 +89,13 @@ export default function Dashboard({
   return (
     <Box>
       {hasAcceptedScope || router.query.hasAcceptedScope ? (
-        <Typography variant="body1" color="success">
-          <CheckCircle sx={{ mr: 1, fontSize: 'inherit' }} />
-          Accès autorisé à Gmail
-        </Typography>
+        <Box>
+          <Typography variant="body1" color="success">
+            <CheckCircle sx={{ mr: 1, fontSize: "inherit" }} />
+            Accès autorisé à Gmail
+          </Typography>
+          {userMails.length >= 1 ? <MailList userMails={userMails} /> : null}
+        </Box>
       ) : (
         <Button
           variant="contained"
@@ -86,22 +111,19 @@ export default function Dashboard({
 }
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
-  const { query } = ctx;
-  const isConnected = query.isConnected;
-  // Create authenticated Supabase Client
+  const redirectNoProvider = await checkProviderToken(ctx);
+  if (redirectNoProvider) {
+    return redirectNoProvider;
+  }
+  const redirectNoSession = await checkSession(ctx);
+  if (redirectNoSession) {
+    return redirectNoSession;
+  }
   const supabase = createServerSupabaseClient(ctx);
   // Check if we have a session
   const {
     data: { session },
   } = await supabase.auth.getSession();
-
-  if (!session && !isConnected)
-    return {
-      redirect: {
-        destination: "/signup",
-        permanent: false,
-      },
-    };
 
   let hasAcceptedScope = false;
 

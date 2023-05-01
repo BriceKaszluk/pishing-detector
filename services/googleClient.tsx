@@ -56,12 +56,14 @@ export const getEmailsFromLastWeek = async (
   const authClient = createOAuth2Client();
   authClient.setCredentials({ access_token: accessToken });
   const gmail = getGmailClient(authClient);
+  let invalidJSONCount = 0;
+  const invalidJSONEmailIds: string[] = [];
 
   try {
     const listRes = await gmail.users.messages.list({
       userId: "me",
       labelIds: ["INBOX"],
-      maxResults: 3,
+      maxResults: 5,
     });
 
     if (!listRes.data.messages) {
@@ -92,14 +94,28 @@ export const getEmailsFromLastWeek = async (
           console.error("Failed to parse email message, skipping:", error);
           // Vous pouvez également ajouter la chaîne JSON problématique pour faciliter le débogage
           console.error("Invalid JSON string:", match[1]);
+          invalidJSONCount++;
+          invalidJSONEmailIds.push(part.match(/Message-ID: <(.+?)>/)![1]);
           // Ignorer le message et passer au suivant
           continue;
         }
       }
     }
-    return emails;
+    console.log(`Number of emails with Invalid JSON string: ${invalidJSONCount}`);
+    console.log(`IDs of emails with Invalid JSON string: ${invalidJSONEmailIds.join(", ")}`);
+
+    const mails = emails.map((mail: any) => ({
+      id: mail.id,
+      threadId: mail.threadId,
+      snippet: mail.snippet,
+      internalDate: mail.internalDate,
+      labelIds: mail.labelIds,
+    }));
+
+    return mails;
   } catch (error) {
     console.error("Failed to fetch emails from last week:", error);
     return [];
   }
 };
+
