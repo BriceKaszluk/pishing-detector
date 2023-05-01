@@ -54,7 +54,7 @@ export default function Dashboard({
     ) {
       getEmailsFromLastWeekAndUpdateState();
     }
-  }, [userMails, hasAcceptedScope, router.query.hasAcceptedScope, session, getEmailsFromLastWeekAndUpdateState]);
+  }, [userMails, hasAcceptedScope, router.query.hasAcceptedScope, session]);
 
   async function requestAdditionalScope() {
     if (!hasAcceptedScope) {

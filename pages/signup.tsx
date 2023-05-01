@@ -27,7 +27,7 @@ const SignUpPage: NextPage = () => {
     if (router.query.refresh === "1") {
       handleSignInWithGoogle();
     }
-  }, [router.query.refresh, handleSignInWithGoogle]);
+  }, [router.query.refresh]);
 
   if (!session) {
     return (
