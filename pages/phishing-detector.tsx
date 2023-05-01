@@ -4,6 +4,7 @@ import { GetServerSidePropsContext } from "next";
 import { checkProviderToken, checkSession } from "../services/checkAuth";
 import {
   useSupabaseClient,
+  useSessionContext,
 } from "@supabase/auth-helpers-react";
 import { Box, Button, Typography } from "@mui/material";
 import { CheckCircle } from "@mui/icons-material";
@@ -20,18 +21,18 @@ type UserMail = Mail & {
 
 export default function PhishingDetector({
   hasAcceptedScope,
-  session,
 }: {
-  session: any;
   hasAcceptedScope: boolean;
 }) {
   const supabaseClient = useSupabaseClient();
+  const { session } = useSessionContext();
   const router = useRouter();
   const [userMails, setUserMails] = useState<UserMail[]>([]);
   const [emailsLoaded, setEmailsLoaded] = useState(false);
 
   const getEmailsFromLastWeekAndUpdateState = useCallback(async () => {
     console.log("getEmailsFromLastWeekAndUpdateState est appelé")
+    console.log(session, "session")
     if (session) {
       try {
         const response = await fetch("/api/getMailsList");
@@ -51,9 +52,10 @@ export default function PhishingDetector({
 
   useEffect(() => {
     if ((hasAcceptedScope || router.query.hasAcceptedScope) && !emailsLoaded) {
+      console.log("on lance la récupération des mails")
       getEmailsFromLastWeekAndUpdateState();
     }
-  }, [hasAcceptedScope, router.query.hasAcceptedScope, emailsLoaded]);
+  }, [hasAcceptedScope, router.query.hasAcceptedScope, emailsLoaded, session]);
 
   async function requestAdditionalScope() {
     if (!hasAcceptedScope) {
@@ -151,7 +153,6 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   return {
     props: {
       hasAcceptedScope,
-      session,
     },
   };
 };

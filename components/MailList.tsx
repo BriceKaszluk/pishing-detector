@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import Pagination from '@mui/lab/Pagination';
+import { Pagination } from '@mui/material';
 import Typography from '@mui/material/Typography';
 
 export interface Mail {
