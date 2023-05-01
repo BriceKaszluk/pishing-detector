@@ -16,7 +16,7 @@ import { useRouter } from "next/router";
 import { GetServerSidePropsContext } from "next";
 import { checkProviderToken, checkSession } from "../services/checkAuth";
 
-const profil: React.FC = () => {
+const Profil: React.FC = () => {
   const user = useUser();
   const supabaseClient = useSupabaseClient();
   const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
@@ -120,7 +120,7 @@ const profil: React.FC = () => {
   );
 };
 
-export default profil;
+export default Profil;
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const redirectNoProvider = await checkProviderToken(ctx);
