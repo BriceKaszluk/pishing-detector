@@ -103,7 +103,7 @@ export default function Dashboard({
           onClick={requestAdditionalScope}
           className="bg-button"
         >
-          Autoriser l'accès à ma boite Gmail
+          Autoriser l&apos;accès à ma boite Gmail
         </Button>
       )}
     </Box>
