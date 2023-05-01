@@ -20,7 +20,7 @@ interface MailListProps {
 
 const ITEMS_PER_PAGE = 20;
 
-export const MailList: React.FC<MailListProps> = memo(function({ userMails }) {
+export const MailList: React.FC<MailListProps> = memo(function MailList({ userMails }) {
   const [selectedMail, setSelectedMail] = useState<Mail | null>(null);
   const [page, setPage] = useState(1);
 
@@ -71,3 +71,4 @@ export const MailList: React.FC<MailListProps> = memo(function({ userMails }) {
   );
 });
 
+MailList.displayName = "MailList";
