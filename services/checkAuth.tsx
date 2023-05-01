@@ -1,7 +1,9 @@
-import { GetServerSidePropsContext } from "next";
+import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 
-export const checkProviderToken = async (ctx: GetServerSidePropsContext) => {
+export const checkProviderToken = async (
+  ctx: GetServerSidePropsContext
+): Promise<GetServerSidePropsResult<{}> | false> => {
   const { resolvedUrl } = ctx;
 
   const restrictedUrls = ["dashboard", "phishing-detector", "profil"];
@@ -14,25 +16,34 @@ export const checkProviderToken = async (ctx: GetServerSidePropsContext) => {
     resolvedUrl.includes(url)
   );
 
-  if (shouldSignInWithGoogle && session) {
-    if (!session.provider_token && !session.provider_refresh_token) {
-      return {
-        redirect: {
-          destination: "/signup?refresh=1",
-          permanent: false,
-        },
-      };
-    }
+  if (
+    shouldSignInWithGoogle &&
+    session &&
+    !session.provider_token &&
+    !session.provider_refresh_token
+  ) {
+    return {
+      redirect: {
+        destination: "/signup?refresh=1",
+        permanent: false,
+      },
+    };
   } else {
-    return false
+    return false;
   }
 };
 
-export const checkSession = async (ctx: GetServerSidePropsContext) => {
-  const { query } = ctx;
-  const isConnected = query.isConnected;
+
+
+
+export const checkSession = async (
+  ctx: GetServerSidePropsContext
+): Promise<GetServerSidePropsResult<{}> | false> => {
+  const isConnected = ctx.query.isConnected;
+
   // Create authenticated Supabase Client
   const supabase = createServerSupabaseClient(ctx);
+
   // Check if we have a session
   const {
     data: { session },
@@ -47,7 +58,8 @@ export const checkSession = async (ctx: GetServerSidePropsContext) => {
       props: {},
     };
   } else {
-    return false
+    return false;
   }
-}
+};
+
 

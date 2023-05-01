@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, memo, useCallback  } from 'react';
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -20,17 +20,23 @@ interface MailListProps {
 
 const ITEMS_PER_PAGE = 20;
 
-export const MailList: React.FC<MailListProps> = ({ userMails }) => {
+export const MailList: React.FC<MailListProps> = memo(function({ userMails }) {
   const [selectedMail, setSelectedMail] = useState<Mail | null>(null);
   const [page, setPage] = useState(1);
 
-  const handleMailClick = (mail: Mail) => {
-    setSelectedMail(mail);
-  };
+  const handleMailClick = useCallback(
+    (mail: Mail) => {
+      setSelectedMail(mail);
+    },
+    [setSelectedMail]
+  );
 
-  const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
-    setPage(value);
-  };
+  const handlePageChange = useCallback(
+    (event: React.ChangeEvent<unknown>, value: number) => {
+      setPage(value);
+    },
+    [setPage]
+  );
 
   const paginatedMails = userMails.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE);
 
@@ -63,4 +69,5 @@ export const MailList: React.FC<MailListProps> = ({ userMails }) => {
       </Box>
     </Box>
   );
-};
+});
+

@@ -7,8 +7,6 @@ import { useRouter } from "next/router";
 import { useUser } from "@supabase/auth-helpers-react";
 
 const HomePage: React.FC = () => {
-  const router = useRouter();
-  const user = useUser();
 
   return (
     <div className="flex flex-col justify-center items-center text-center p-8">
