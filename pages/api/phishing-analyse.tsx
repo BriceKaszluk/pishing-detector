@@ -1,5 +1,5 @@
 // pages/api/process_emails.ts
-import * as tf from "@tensorflow/tfjs";
+import { tensor2d, loadLayersModel, LayersModel } from "@tensorflow/tfjs";
 import "@tensorflow/tfjs-node";
 import { NextApiHandler } from "next";
 
@@ -131,14 +131,14 @@ const mailFeaturesToArray = (email: ProcessedMail): number[] => {
 
 
 
-const loadModel = async (): Promise<tf.LayersModel> => {
-  const model = await tf.loadLayersModel("file://./public/mon_modele_tfjs/model.json");
+const loadModel = async (): Promise<LayersModel> => {
+  const model = await loadLayersModel("file://./public/mon_modele_tfjs/model.json");
   return model;
 };
 
-const predict = async (model: tf.LayersModel, emailFeatures: ProcessedMail): Promise<number> => {
+const predict = async (model: LayersModel, emailFeatures: ProcessedMail): Promise<number> => {
   const featuresArray = mailFeaturesToArray(emailFeatures);
-  const inputTensor = tf.tensor2d([featuresArray]);
+  const inputTensor = tensor2d([featuresArray]);
   const prediction = model.predict(inputTensor);
   const phishingProbability = (prediction as tf.Tensor).dataSync()[0];
 
