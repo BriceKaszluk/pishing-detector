@@ -1,5 +1,5 @@
 // pages/api/process_emails.ts
-import { tensor2d, loadLayersModel, LayersModel } from "@tensorflow/tfjs";
+import { tensor2d, loadLayersModel, LayersModel, Tensor } from "@tensorflow/tfjs";
 import "@tensorflow/tfjs-node";
 import { NextApiHandler } from "next";
 
@@ -140,7 +140,7 @@ const predict = async (model: LayersModel, emailFeatures: ProcessedMail): Promis
   const featuresArray = mailFeaturesToArray(emailFeatures);
   const inputTensor = tensor2d([featuresArray]);
   const prediction = model.predict(inputTensor);
-  const phishingProbability = (prediction as tf.Tensor).dataSync()[0];
+  const phishingProbability = (prediction as Tensor).dataSync()[0];
 
   return phishingProbability;
 };
