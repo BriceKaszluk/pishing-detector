@@ -1,5 +1,7 @@
 // pages/api/process_emails.ts
-import { tensor2d, loadLayersModel, LayersModel, Tensor } from "@tensorflow/tfjs";
+import { tensor2d, Tensor } from "@tensorflow/tfjs-core";
+import { loadLayersModel, LayersModel } from "@tensorflow/tfjs-layers";
+
 import "@tensorflow/tfjs-node";
 import { NextApiHandler } from "next";
 
