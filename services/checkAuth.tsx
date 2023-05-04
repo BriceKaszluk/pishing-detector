@@ -24,7 +24,7 @@ export const checkProviderToken = async (
   ) {
     return {
       redirect: {
-        destination: "/signup?refresh=1",
+        destination: "/signup?refresh=true",
         permanent: false,
       },
     };

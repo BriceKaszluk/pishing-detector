@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useEffect } from "react";
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { GetServerSidePropsContext } from "next";
 import { checkProviderToken, checkSession } from "../services/checkAuth";
@@ -9,15 +9,10 @@ import {
 import { Box, Button, Typography } from "@mui/material";
 import { CheckCircle } from "@mui/icons-material";
 import { useRouter } from "next/router";
-import { MailList, Mail } from "../components/MailList";
-
-type UserMail = Mail & {
-  id: string;
-  threadId: string;
-  snippet: string;
-  internalDate: string;
-  labelIds: string[];
-};
+import { MailList } from "../components/MailList";
+import { useEmails } from "../hooks/useEmails";
+import { useRequestAdditionalScope } from "../hooks/useRequestAdditionalScope";
+import Loader from "../components/Loader";
 
 export default function PhishingDetector({
   hasAcceptedScope,
@@ -27,74 +22,44 @@ export default function PhishingDetector({
   const supabaseClient = useSupabaseClient();
   const { session } = useSessionContext();
   const router = useRouter();
-  const [userMails, setUserMails] = useState<UserMail[]>([]);
-  const [emailsLoaded, setEmailsLoaded] = useState(false);
+  const [userMails, setEmailsLoaded] = useEmails(
+    session,
+    hasAcceptedScope ? hasAcceptedScope : Boolean(router.query.hasAcceptedScope)
+  );
 
-  const getEmailsFromLastWeekAndUpdateState = useCallback(async () => {
-    console.log("getEmailsFromLastWeekAndUpdateState est appelé")
-    console.log(session, "session")
-    if (session) {
-      try {
-        const response = await fetch("/api/getMailsList");
-        if (response.ok) {
-          const data = await response.json();
-  
-          setUserMails(data.emails);
-          setEmailsLoaded(true);
-        } else {
-          console.error("Failed to fetch emails:", response.statusText);
-        }
-      } catch (error) {
-        console.error("Error fetching emails:", error);
-      }
-    }
-  }, [session]);
-
+  const requestAdditionalScope = useRequestAdditionalScope(
+    supabaseClient,
+    typeof hasAcceptedScope === "boolean"
+      ? hasAcceptedScope
+      : Boolean(router.query.hasAcceptedScope)
+  );
+console.log(userMails, "userMails")
   useEffect(() => {
-    if ((hasAcceptedScope || router.query.hasAcceptedScope) && !emailsLoaded) {
-      console.log("on lance la récupération des mails")
-      getEmailsFromLastWeekAndUpdateState();
-    }
-  }, [hasAcceptedScope, router.query.hasAcceptedScope, emailsLoaded, session]);
+    const acceptedScope = hasAcceptedScope
+      ? hasAcceptedScope
+      : Boolean(router.query.hasAcceptedScope);
 
-  async function requestAdditionalScope() {
-    if (!hasAcceptedScope) {
-      try {
-        const { error: additionalScopeError } =
-          await supabaseClient.auth.signInWithOAuth({
-            provider: "google",
-            options: {
-              scopes: "https://www.googleapis.com/auth/gmail.readonly",
-              redirectTo: `${process.env.NEXT_PUBLIC_HOSTNAME}/phishing-detector?isConnected=1&hasAcceptedScope=1`,
-              queryParams: {
-                access_type: 'offline',
-              },
-            },
-          });
-
-        if (additionalScopeError) {
-          throw additionalScopeError;
-        } else {
-          console.log("Additional scope requested successfully");
-        }
-      } catch (error) {
-        if (error instanceof Error) {
-          console.error("Error requesting additional scope:", error.message);
-        } else {
-          console.error("Error requesting additional scope:", error);
-        }
-      }
+    if (acceptedScope && userMails.length < 1) {
+      console.log("on lance la récupération des mails");
+      // Appelez setEmailsLoaded(false) pour déclencher le chargement des mails
+      setEmailsLoaded(false);
     }
-  }
+  }, [hasAcceptedScope, router.query.hasAcceptedScope, userMails, session]);
 
   return (
-    <Box>
+    <Box display="flex" justifyContent="center" alignItems="center" sx={{ width: "100%" }}>
       {hasAcceptedScope || router.query.hasAcceptedScope ? (
-        <Box>
-          <Typography variant="body1" color="success">
-            <CheckCircle sx={{ mr: 1, fontSize: "inherit" }} />
-            Accès autorisé à Gmail
-          </Typography>
+        <Box sx={{ width: "100%" }}>
+          {!userMails.length ? (
+            <div>
+              <Typography variant="body1" color="primary" sx={{ margin: "auto", width: "fit-content" }}>
+                <CheckCircle sx={{ mr: 1, fontSize: "inherit" }} />
+                Accès autorisé à Gmail
+              </Typography>
+              <Loader size={50} thickness={5} />
+            </div>
+          ) : null}
+
           {userMails.length >= 1 ? <MailList userMails={userMails} /> : null}
         </Box>
       ) : (
@@ -133,12 +98,14 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 
   if (session) {
     try {
-      const response = await fetch(`https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=${session.provider_token}`);
+      const response = await fetch(
+        `https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=${session.provider_token}`
+      );
       const responseData = await response.json();
-  
+
       const acceptedScopes = responseData.scope.split(" ");
       const requiredScope = "https://www.googleapis.com/auth/gmail.readonly";
-  
+
       hasAcceptedScope = acceptedScopes.includes(requiredScope);
     } catch (error) {
       if (error instanceof Error) {
@@ -146,10 +113,9 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
       } else {
         console.error("Error:", error);
       }
-      
     }
   }
-  
+
   return {
     props: {
       hasAcceptedScope,

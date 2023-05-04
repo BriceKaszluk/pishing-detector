@@ -4,16 +4,23 @@ import { useState } from "react";
 import "../styles/globals.css";
 import MainLayout from "../components/MainLayout";
 import { AppProps } from "next/app";
-import { createTheme } from "@mui/material/styles";
-import { ThemeProvider } from "@emotion/react";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#0077c2",
+      main: '#0077c2', // Bleu primaire
+    },
+    secondary: {
+      main: '#273142', // Bleu foncé (principale couleur secondaire)
+      dark: '#1d2533', // Bleu très foncé
+    },
+    info: {
+      main: '#E6F2FF', // Bleu très clair (couleur d'information)
     },
   },
 });
+
 
 export default function MyApp({
   Component,

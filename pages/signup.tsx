@@ -11,7 +11,7 @@ const SignUpPage: NextPage = () => {
 
   const handleSignInWithGoogle = async () => {
     const { error } = await supabaseClient.auth.signInWithOAuth({ provider: "google",   options: {
-      redirectTo: `${process.env.NEXT_PUBLIC_HOSTNAME}/dashboard?isConnected=1`,
+      redirectTo: `${process.env.NEXT_PUBLIC_HOSTNAME}/dashboard?isConnected=true`,
       queryParams: {
         access_type: 'offline',
         prompt: 'consent',
@@ -24,7 +24,7 @@ const SignUpPage: NextPage = () => {
   };
 
   useEffect(() => {
-    if (router.query.refresh === "1") {
+    if (router.query.refresh === "true") {
       handleSignInWithGoogle();
     }
   }, [router.query.refresh]);

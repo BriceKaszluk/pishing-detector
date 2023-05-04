@@ -13,3 +13,17 @@ export interface Database {
   };
 }
 
+export interface Mail {
+  id: string;
+  threadId: string;
+  snippet: string;
+  internalDate: string;
+  labelIds: string[];
+  from: string;
+  subject: string;
+  textBody: string;
+  htmlBody: string;
+  attachments: string[];
+}
+
+

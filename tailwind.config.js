@@ -18,6 +18,7 @@ module.exports = {
         'header': '#0077c2',
         'footer': '#273142',
         'main': '#E6F2FF',
+        'success': '#4CAF50',
       },
       minHeight: {
         'main': 'calc(100vh - (64px + 260px))',
