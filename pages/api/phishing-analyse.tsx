@@ -1,13 +1,29 @@
 // pages/api/process_emails.ts
-import { tensor2d, Tensor } from "@tensorflow/tfjs-core";
-import { loadLayersModel, LayersModel } from "@tensorflow/tfjs-layers";
-
+import { loadModel } from "./loadModel";
+import { predict } from "./predict";
 import "@tensorflow/tfjs-node";
 import { NextApiHandler } from "next";
 
+interface ProcessedMail extends Mail {
+  NumDots: number[];
+  SubdomainLevel: number;
+  PathLevel: number[];
+  UrlLength: number[];
+  NumDash: number[];
+}
 
-
-
+interface Mail {
+  id: string;
+  threadId: string;
+  snippet: string;
+  internalDate: string;
+  labelIds: string[];
+  from: string;
+  subject: string;
+  textBody: string;
+  htmlBody: string;
+  attachments: string[];
+}
 
 const extractUrls = (htmlBody: string): string[] => {
   const regex = /https?:\/\/[^\s]+/g;
@@ -32,25 +48,23 @@ const countDashesInUrl = (url: string): number => {
   return (url.match(/-/g) || []).length;
 };
 
+const processEmails = (emails: Mail[]): ProcessedMail[] => {
+  console.log("processEmails")
+  return emails.map((email) => {
+    const urls = extractUrls(email.htmlBody);
+    const numDots = urls.map(countDotsInUrl);
+    const numDash = urls.map(countDashesInUrl);
+    const pathLevels = urls.map(pathLevel);
 
-
-
-
-
-
-
-const loadModel = async (): Promise<LayersModel> => {
-  const model = await loadLayersModel("file://./public/mon_modele_tfjs/model.json");
-  return model;
-};
-
-const predict = async (model: LayersModel, emailFeatures: ProcessedMail): Promise<number> => {
-  const featuresArray = mailFeaturesToArray(emailFeatures);
-  const inputTensor = tensor2d([featuresArray]);
-  const prediction = model.predict(inputTensor);
-  const phishingProbability = (prediction as Tensor).dataSync()[0];
-
-  return phishingProbability;
+    return {
+      ...email,
+      NumDots: numDots,
+      SubdomainLevel: subdomainLevel(email.from),
+      PathLevel: pathLevels,
+      UrlLength: urls.map((url) => url.length),
+      NumDash: numDash,
+    };
+  });
 };
 
 

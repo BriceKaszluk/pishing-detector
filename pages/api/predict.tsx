@@ -1,6 +1,5 @@
 // pages/api/predict.ts
 import { LayersModel, Tensor, tensor2d } from "@tensorflow/tfjs";
-import { ProcessedMail } from "./types";
 
 interface ProcessedMail extends Mail {
   NumDots: number[];
@@ -22,25 +21,6 @@ interface Mail {
   htmlBody: string;
   attachments: string[];
 }
-
-const processEmails = (emails: Mail[]): ProcessedMail[] => {
-  console.log("processEmails")
-  return emails.map((email) => {
-    const urls = extractUrls(email.htmlBody);
-    const numDots = urls.map(countDotsInUrl);
-    const numDash = urls.map(countDashesInUrl);
-    const pathLevels = urls.map(pathLevel);
-
-    return {
-      ...email,
-      NumDots: numDots,
-      SubdomainLevel: subdomainLevel(email.from),
-      PathLevel: pathLevels,
-      UrlLength: urls.map((url) => url.length),
-      NumDash: numDash,
-    };
-  });
-};
 
 const sum = (arr: number[]): number => arr.reduce((a, b) => a + b, 0);
 
