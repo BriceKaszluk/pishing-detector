@@ -40,7 +40,6 @@ console.log(userMails, "userMails")
       : Boolean(router.query.hasAcceptedScope);
 
     if (acceptedScope && userMails.length < 1) {
-      console.log("on lance la récupération des mails");
       // Appelez setEmailsLoaded(false) pour déclencher le chargement des mails
       setEmailsLoaded(false);
     }

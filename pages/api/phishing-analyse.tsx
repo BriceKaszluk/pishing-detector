@@ -1,7 +1,6 @@
 // pages/api/process_emails.ts
 import { loadModel } from "./loadModel";
 import { predict } from "./predict";
-import "@tensorflow/tfjs-node";
 import { NextApiHandler } from "next";
 
 interface ProcessedMail extends Mail {
@@ -49,7 +48,6 @@ const countDashesInUrl = (url: string): number => {
 };
 
 const processEmails = (emails: Mail[]): ProcessedMail[] => {
-  console.log("processEmails")
   return emails.map((email) => {
     const urls = extractUrls(email.htmlBody);
     const numDots = urls.map(countDotsInUrl);
@@ -69,7 +67,6 @@ const processEmails = (emails: Mail[]): ProcessedMail[] => {
 
 
 const handler: NextApiHandler = async (req, res) => {
-  console.log("in handler")
   if (req.method === "POST") {
     const emails = req.body.emails as Mail[];
 

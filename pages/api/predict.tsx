@@ -1,5 +1,4 @@
-// pages/api/predict.ts
-import { LayersModel, Tensor, tensor2d } from "@tensorflow/tfjs";
+import {LayersModel, Tensor, tensor2d} from "@tensorflow/tfjs-node";
 
 interface ProcessedMail extends Mail {
   NumDots: number[];
@@ -25,10 +24,8 @@ interface Mail {
 const sum = (arr: number[]): number => arr.reduce((a, b) => a + b, 0);
 
 const mailFeaturesToArray = (email: ProcessedMail): number[] => {
-  console.log("mailFeaturesToArray")
-  // Utilisez la fonction sum() pour convertir les tableaux de nombres en un seul nombre
   const featuresArray = [
-    parseInt(email.id), // En supposant que l'ID est un nombre, sinon vous devez le convertir en un nombre ou le supprimer
+    parseInt(email.id),
     sum(email.NumDots),
     email.SubdomainLevel,
     sum(email.PathLevel),
@@ -78,13 +75,15 @@ const mailFeaturesToArray = (email: ProcessedMail): number[] => {
     0, // AbnormalExtFormActionR
     0, // ExtMetaScriptLinkRT
     0, // PctExtNullSelfRedirectHyperlinksRT
-
   ];
 
   return featuresArray;
 };
 
-export const predict = async (model: LayersModel, emailFeatures: ProcessedMail): Promise<number> => {
+export const predict = async (
+    model: LayersModel,
+    emailFeatures: ProcessedMail
+): Promise<number> => {
   const featuresArray = mailFeaturesToArray(emailFeatures);
   const inputTensor = tensor2d([featuresArray]);
   const prediction = model.predict(inputTensor);
