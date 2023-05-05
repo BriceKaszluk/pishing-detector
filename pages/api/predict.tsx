@@ -1,4 +1,4 @@
-import {LayersModel, Tensor, tensor2d} from "@tensorflow/tfjs-node";
+import { LayersModel, Tensor, tensor2d } from '@tensorflow/tfjs-node';
 
 interface ProcessedMail extends Mail {
   NumDots: number[];
@@ -81,8 +81,8 @@ const mailFeaturesToArray = (email: ProcessedMail): number[] => {
 };
 
 export const predict = async (
-    model: LayersModel,
-    emailFeatures: ProcessedMail
+  model: LayersModel,
+  emailFeatures: ProcessedMail,
 ): Promise<number> => {
   const featuresArray = mailFeaturesToArray(emailFeatures);
   const inputTensor = tensor2d([featuresArray]);

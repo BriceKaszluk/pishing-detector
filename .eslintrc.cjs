@@ -10,6 +10,9 @@ module.exports = {
     "plugin:import/typescript",
     "google",
     "plugin:@typescript-eslint/recommended",
+    "next", 
+    "next/core-web-vitals", 
+    "plugin:prettier/recommended"
   ],
   parser: "@typescript-eslint/parser",
   parserOptions: {
@@ -24,8 +27,11 @@ module.exports = {
   plugins: [
     "@typescript-eslint",
     "import",
+    "prettier",
   ],
   rules: {
-    quotes: ["error", "double"],
+    "quotes": ["error", "double", { "avoidEscape": true, "allowTemplateLiterals": false }],
+    "prettier/prettier": ["error", {}, { usePrettierrc: true }],
+    "object-curly-spacing": ["error", "never"],
   },
 };

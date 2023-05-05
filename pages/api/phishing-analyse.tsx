@@ -1,7 +1,7 @@
 // pages/api/process_emails.ts
-import { loadModel } from "./loadModel";
-import { predict } from "./predict";
-import { NextApiHandler } from "next";
+import { loadModel } from './loadModel';
+import { predict } from './predict';
+import { NextApiHandler } from 'next';
 
 interface ProcessedMail extends Mail {
   NumDots: number[];
@@ -34,13 +34,13 @@ const countDotsInUrl = (url: string): number => {
 };
 
 const subdomainLevel = (email: string): number => {
-  const domain = email.split("@")[1];
-  return domain.split(".").length - 1;
+  const domain = email.split('@')[1];
+  return domain.split('.').length - 1;
 };
 
 const pathLevel = (url: string): number => {
   const path = new URL(url).pathname;
-  return path === '/' ? 0 : path.split("/").length - 1;
+  return path === '/' ? 0 : path.split('/').length - 1;
 };
 
 const countDashesInUrl = (url: string): number => {
@@ -65,25 +65,24 @@ const processEmails = (emails: Mail[]): ProcessedMail[] => {
   });
 };
 
-
 const handler: NextApiHandler = async (req, res) => {
-  if (req.method === "POST") {
+  if (req.method === 'POST') {
     const emails = req.body.emails as Mail[];
 
     if (!emails) {
-      res.status(400).json({ error: "Emails are required" });
+      res.status(400).json({ error: 'Emails are required' });
       return;
     }
 
     const processedEmails = processEmails(emails);
     const model = await loadModel();
     const phishingProbabilities = await Promise.all(
-      processedEmails.map((emailFeatures) => predict(model, emailFeatures))
+      processedEmails.map((emailFeatures) => predict(model, emailFeatures)),
     );
 
     res.status(200).json({ phishingProbabilities });
   } else {
-    res.setHeader("Allow", "POST");
+    res.setHeader('Allow', 'POST');
     res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 };
