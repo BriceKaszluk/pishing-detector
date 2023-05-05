@@ -28,7 +28,4 @@ module.exports = {
   rules: {
     quotes: ["error", "double"],
   },
-  compilerOptions: {
-    "types": []
-  },
 };
