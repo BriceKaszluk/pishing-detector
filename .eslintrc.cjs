@@ -19,7 +19,6 @@ module.exports = {
   ignorePatterns: [
     "/lib/**/*", // Ignore built files.
     "/node_modules/**/*", // Ignore files in node_modules folder
-    "/functions/node_modules/**/*", // Ignore files in node_modules folder
     ".eslintrc.cjs", // Ignore the .eslintrc.cjs file
   ],
   plugins: [
@@ -30,7 +29,6 @@ module.exports = {
     quotes: ["error", "double"],
   },
   compilerOptions: {
-    skipLibCheck: true,
     "types": []
   },
 };
