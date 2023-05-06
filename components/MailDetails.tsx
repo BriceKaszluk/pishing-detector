@@ -1,6 +1,6 @@
 import React from "react";
 import Typography from "@mui/material/Typography";
-import { Mail } from "../lib/database.types";
+import { Mail } from "../lib/types";
 import Box from "@mui/material/Box";
 import EmailIframe from './EmailIframe';
 

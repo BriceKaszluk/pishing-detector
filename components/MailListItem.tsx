@@ -1,5 +1,5 @@
 // components/MailListItem.tsx
-import React from "react";
+import React from 'react';
 import {
   Button,
   Card,
@@ -10,8 +10,9 @@ import {
   ListItemText,
   Typography,
   Box,
-} from "@mui/material";
-import { Mail } from "../lib/database.types";
+  Chip,
+} from '@mui/material';
+import { Mail } from '../lib/types';
 
 export interface MailListItemProps {
   mail: Mail;
@@ -19,6 +20,17 @@ export interface MailListItemProps {
   onCheckboxToggle: (mail: Mail) => void;
   isSelected: boolean;
 }
+
+const getChipColor = (label: string) => {
+  switch (label) {
+    case 'danger':
+      return 'error.main';
+    case 'warning':
+      return 'warning.main';
+    default:
+      return 'success.main';
+  }
+};
 
 export const MailListItem: React.FC<MailListItemProps> = ({
   mail,
@@ -29,8 +41,8 @@ export const MailListItem: React.FC<MailListItemProps> = ({
   <Card
     sx={{
       marginBottom: 1,
-      boxShadow: "0px 3px 6px rgba(0, 0, 0, 0.16)",
-      borderRadius: "4px",
+      boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.16)',
+      borderRadius: '4px',
       opacity: 0.9,
     }}
   >
@@ -54,13 +66,13 @@ export const MailListItem: React.FC<MailListItemProps> = ({
               <Box>
                 <Typography
                   component="span"
-                  sx={{ fontWeight: "bold", color: "#0077c2" }}
+                  sx={{ fontWeight: 'bold', color: '#0077c2' }}
                 >
                   Expéditeur:
                 </Typography>
                 <Typography
                   component="span"
-                  sx={{ fontWeight: "bold", color: "#273142", marginLeft: 1 }}
+                  sx={{ fontWeight: 'bold', color: '#273142', marginLeft: 1 }}
                 >
                   {mail.from}
                 </Typography>
@@ -69,15 +81,15 @@ export const MailListItem: React.FC<MailListItemProps> = ({
               <Box sx={{ marginTop: 1, marginBottom: 1 }}>
                 <Typography
                   component="span"
-                  sx={{ fontWeight: "bold", color: "#0077c2", marginRight: 1 }}
+                  sx={{ fontWeight: 'bold', color: '#0077c2', marginRight: 1 }}
                 >
                   Objet:
                 </Typography>
                 <Typography
                   component="span"
                   sx={{
-                    fontWeight: "bold",
-                    color: "#273142",
+                    fontWeight: 'bold',
+                    color: '#273142',
                     marginBottom: 1,
                     marginTop: 1,
                   }}
@@ -88,8 +100,23 @@ export const MailListItem: React.FC<MailListItemProps> = ({
             </>
           }
           secondary={new Date(parseInt(mail.internalDate, 10)).toLocaleString()}
-          sx={{ marginLeft: "auto" }}
+          sx={{ marginLeft: 'auto' }}
         />
+        {mail.phishingLabel  ? (
+          <Box sx={{ marginLeft: 1 }}>
+            <Chip
+              label={`${mail.phishingLabel.toUpperCase()} (${
+                mail.phishingScore !== undefined ? mail.phishingScore : 'N/A'
+              })`}
+              size="small"
+              sx={{
+                fontWeight: 'bold',
+                backgroundColor: getChipColor(mail.phishingLabel),
+                color: '#FFF',
+              }}
+            />
+          </Box>
+        ) : null}
       </ListItem>
     </CardContent>
   </Card>

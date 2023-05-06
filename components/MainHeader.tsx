@@ -13,7 +13,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import PhishingDetectorIcon from "@mui/icons-material/Security"; // Import the icon you want to use
-import { Database } from "../lib/database.types";
+import { Database } from "../lib/types";
 import { useRouter } from "next/router";
 
 const MainHeader: React.FC = () => {

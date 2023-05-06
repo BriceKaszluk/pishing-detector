@@ -1,10 +1,11 @@
-import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
-import { SessionContextProvider, Session } from "@supabase/auth-helpers-react";
-import { useState } from "react";
-import "../styles/globals.css";
-import MainLayout from "../components/MainLayout";
-import { AppProps } from "next/app";
+import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';
+import { SessionContextProvider, Session } from '@supabase/auth-helpers-react';
+import { useState } from 'react';
+import '../styles/globals.css';
+import MainLayout from '../components/MainLayout';
+import { AppProps } from 'next/app';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { EmailsProvider } from '../context/EmailsContext';
 
 const theme = createTheme({
   palette: {
@@ -21,7 +22,6 @@ const theme = createTheme({
   },
 });
 
-
 export default function MyApp({
   Component,
   pageProps,
@@ -36,9 +36,11 @@ export default function MyApp({
       initialSession={pageProps.initialSession}
     >
       <ThemeProvider theme={theme}>
+        <EmailsProvider>
           <MainLayout>
             <Component {...pageProps} />
           </MainLayout>
+        </EmailsProvider>
       </ThemeProvider>
     </SessionContextProvider>
   );

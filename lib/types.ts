@@ -24,6 +24,14 @@ export interface Mail {
   textBody: string;
   htmlBody: string;
   attachments: string[];
+  phishingLabel?: string;
+  phishingScore?: number;
 }
 
+
+export interface PhishingScore {
+  emailId: string;
+  phishingScore: number;
+  label: string;
+}
 

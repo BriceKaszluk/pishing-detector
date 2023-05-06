@@ -1,6 +1,6 @@
 import { google, Auth, gmail_v1 } from "googleapis";
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
-import { Mail } from "../lib/database.types";
+import { Mail } from "../lib/types";
 
 const clientId = process.env.GOOGLE_CLIENT_ID!;
 const clientSecret = process.env.GOOGLE_CLIENT_SECRET!;

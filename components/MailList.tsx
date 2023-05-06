@@ -1,30 +1,23 @@
-import React, { useState, memo, useCallback, useEffect } from "react";
-import Box from "@mui/material/Box";
-import List from "@mui/material/List";
-import { Grid } from "@mui/material";
-import { Mail } from "../lib/database.types";
-import { MailListItem } from "./MailListItem";
-import { MailDetails } from "./MailDetails";
-import { PaginationControl } from "./PaginationControl";
-import DOMPurify from "dompurify";
+import React, { useState, memo, useCallback, useEffect, useMemo } from 'react';
+import Box from '@mui/material/Box';
+import List from '@mui/material/List';
+import { Grid } from '@mui/material';
+import { Mail } from '../lib/types';
+import { MailListItem } from './MailListItem';
+import { MailDetails } from './MailDetails';
+import { PaginationControl } from './PaginationControl';
+import DOMPurify from 'dompurify';
+import { useEmailsContext } from '../context/EmailsContext';
 
 const ITEMS_PER_PAGE = 5;
 
-interface MailListProps {
-  userMails: Mail[];
-}
-
-export const MailList: React.FC<MailListProps> = memo(function MailList({
-  userMails,
-}) {
+export const MailList: React.FC<MailListProps> = memo(function MailList() {
   const [selectedMails, setSelectedMails] = useState<Mail[]>([]);
   const [displayedMail, setDisplayedMail] = useState<Mail | null>(null);
-  const [cleanHtmlBody, setCleanHtmlBody] = useState<string>("");
-  const [phishingProbabilities, setPhishingProbabilities] = useState<number[]>([]);
+  const [cleanHtmlBody, setCleanHtmlBody] = useState<string>('');
   const [page, setPage] = useState(1);
 
-  console.log(phishingProbabilities, "phishingProbabilities")
-  console.log(selectedMails, "selectedMails")
+  const { userMails, updateEmailsWithProbabilities } = useEmailsContext();
 
   const handleCheckboxToggle = useCallback(
     (mail: Mail) => {
@@ -38,35 +31,35 @@ export const MailList: React.FC<MailListProps> = memo(function MailList({
         setSelectedMails((prevSelectedMails) => [...prevSelectedMails, mail]);
       }
     },
-    [selectedMails, setSelectedMails]
+    [selectedMails, setSelectedMails],
   );
 
   const analyzeEmails = async () => {
     try {
-      const response = await fetch("/api/phishing-analyse", {
-        method: "POST",
+      const response = await fetch('/api/phishingScore', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ emails: selectedMails }),
       });
 
       if (!response.ok) {
-        throw new Error("Error analyzing emails");
+        throw new Error('Error analyzing emails');
       }
 
       const data = await response.json();
-      setPhishingProbabilities(data.phishingProbabilities);
+      updateEmailsWithProbabilities(data);
     } catch (error) {
-      console.error("Failed to analyze emails:", error);
+      console.error('Failed to analyze emails:', error);
     }
   };
-  
+
   const handleMailClick = useCallback(
     (mail: Mail) => {
       setDisplayedMail(mail);
     },
-    [setDisplayedMail]
+    [setDisplayedMail],
   );
 
   useEffect(() => {
@@ -74,7 +67,7 @@ export const MailList: React.FC<MailListProps> = memo(function MailList({
       const purifiedHtml = DOMPurify.sanitize(displayedMail.htmlBody);
       setCleanHtmlBody(purifiedHtml);
     } else {
-      setCleanHtmlBody("");
+      setCleanHtmlBody('');
     }
   }, [displayedMail]);
 
@@ -82,23 +75,20 @@ export const MailList: React.FC<MailListProps> = memo(function MailList({
     (event: React.ChangeEvent<unknown>, value: number) => {
       setPage(value);
     },
-    [setPage]
+    [setPage],
   );
 
-  const paginatedMails = userMails.slice(
-    (page - 1) * ITEMS_PER_PAGE,
-    page * ITEMS_PER_PAGE
-  );
-
-  const handleLaunchAnalyse = () => {
-    // Lancer l'analyse phishing sur les mails sélectionnés
-  };
+  const paginatedMails = useMemo(() => {
+    console.log("pagination")
+    console.log(userMails, "pagination")
+    return userMails.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE);
+  }, [userMails, page]);
 
   return (
-    <Box display="flex" sx={{ bgcolor: "info.main", p: 2 }}>
+    <Box display="flex" sx={{ bgcolor: 'info.main', p: 2 }}>
       <Grid container spacing={2}>
         <Grid item xs={12} md={6}>
-          <Box sx={{ bgcolor: "primary.main", borderRadius: 4, p: 2 }}>
+          <Box sx={{ bgcolor: 'primary.main', borderRadius: 4, p: 2 }}>
             <List>
               {paginatedMails.map((mail) => (
                 <MailListItem
@@ -119,7 +109,7 @@ export const MailList: React.FC<MailListProps> = memo(function MailList({
           </Box>
         </Grid>
         <Grid item xs={12} md={6}>
-          <Box p={2} sx={{ color: "primary.main" }}>
+          <Box p={2} sx={{ color: 'primary.main' }}>
             <MailDetails mail={displayedMail} cleanHtmlBody={cleanHtmlBody} />
           </Box>
         </Grid>
@@ -128,4 +118,4 @@ export const MailList: React.FC<MailListProps> = memo(function MailList({
   );
 });
 
-MailList.displayName = "MailList";
+MailList.displayName = 'MailList';
