@@ -12,7 +12,7 @@ interface EmailsContextValue {
   userMails: UserMail[];
   setEmailsLoaded: (loaded: boolean) => void;
   updateEmailsWithProbabilities: (
-    probabilitiesWithIds: { id: string; phishingLabel: string; phishingScore: number }[]
+    probabilitiesWithIds: { emailId: string; label: string; phishingScore: number }[]
   ) => void;
   setHasAcceptedScope: React.Dispatch<React.SetStateAction<boolean>>;
 }

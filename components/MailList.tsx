@@ -11,7 +11,7 @@ import { useEmailsContext } from '../context/EmailsContext';
 
 const ITEMS_PER_PAGE = 5;
 
-export const MailList: React.FC<MailListProps> = memo(function MailList() {
+export const MailList: React.FC = memo(function MailList() {
   const [selectedMails, setSelectedMails] = useState<Mail[]>([]);
   const [displayedMail, setDisplayedMail] = useState<Mail | null>(null);
   const [cleanHtmlBody, setCleanHtmlBody] = useState<string>('');
