@@ -69,5 +69,6 @@ export const calculatePhishingScore = (email: Mail): PhishingScore => {
     emailId: email.id,
     phishingScore: normalizedPhishingScore,
     label,
+    features,
   };
 };

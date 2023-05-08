@@ -11,7 +11,8 @@ import { useEmailsContext } from '../context/EmailsContext';
 
 const ITEMS_PER_PAGE = 5;
 
-export const MailList: React.FC = memo(function MailList() {
+
+const MailList: React.FC = memo(function MailList() {
   const [selectedMails, setSelectedMails] = useState<Mail[]>([]);
   const [displayedMail, setDisplayedMail] = useState<Mail | null>(null);
   const [cleanHtmlBody, setCleanHtmlBody] = useState<string>('');
@@ -79,8 +80,7 @@ export const MailList: React.FC = memo(function MailList() {
   );
 
   const paginatedMails = useMemo(() => {
-    console.log("pagination")
-    console.log(userMails, "pagination")
+    
     return userMails.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE);
   }, [userMails, page]);
 
@@ -102,7 +102,7 @@ export const MailList: React.FC = memo(function MailList() {
             </List>
             <PaginationControl
               totalPages={Math.ceil(userMails.length / ITEMS_PER_PAGE)}
-              currentPage={page}
+              page={page}
               onPageChange={handlePageChange}
               onButtonClick={analyzeEmails}
             />
@@ -119,3 +119,5 @@ export const MailList: React.FC = memo(function MailList() {
 });
 
 MailList.displayName = 'MailList';
+
+export default MailList;

@@ -29,9 +29,10 @@ export interface Mail {
 }
 
 
-export interface PhishingScore {
+export type PhishingScore = {
   emailId: string;
   phishingScore: number;
   label: string;
-}
+  features?: Record<string, unknown> | null; // indicates optional and of type jsonb
+};
 

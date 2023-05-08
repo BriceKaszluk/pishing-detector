@@ -7,6 +7,8 @@ import React, {
 } from "react";
 import { Mail } from "../lib/types";
 import { useSessionContext } from "@supabase/auth-helpers-react";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { Database } from "../lib/types";
 
 interface EmailsContextValue {
   userMails: UserMail[];
@@ -32,6 +34,7 @@ type UserMail = Mail & {
 
 const EmailsContext = createContext<EmailsContextValue | undefined>(undefined);
 
+
 export const EmailsProvider: React.FC<{}> = ({
   children,
 }) => {
@@ -40,6 +43,22 @@ export const EmailsProvider: React.FC<{}> = ({
   const [emailsLoaded, setEmailsLoaded] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { session } = useSessionContext();
+  const supabaseClient = useSupabaseClient<Database>();
+
+  const loadStoredPhishingScores = async (user_id: string) => {
+    const { data, error } = await supabaseClient
+      .from('phishing_scores')
+      .select('*')
+      .eq('user_id', user_id);
+  console.log(data, "data")
+    if (error) {
+      console.error('Error loading stored phishing scores:', error.message);
+      return [];
+    }
+  
+    return data || [];
+  };
+  
 
   const getEmailsFromLastWeekAndUpdateState = useCallback(async () => {
     if (session && !isLoading) {
@@ -48,8 +67,25 @@ export const EmailsProvider: React.FC<{}> = ({
         const response = await fetch("/api/getMailsList");
         if (response.ok) {
           const data = await response.json();
-
-          setUserMails(data.emails);
+          const storedPhishingScores = await loadStoredPhishingScores(session.user.id);
+  
+          // Map stored phishing scores to emails
+          const emailsWithPhishingScores = data.emails.map((email: UserMail) => {
+            const storedScore = storedPhishingScores.find(
+              (score: any) => score.email_id === email.id
+            );
+  
+            if (storedScore) {
+              return {
+                ...email,
+                phishingLabel: storedScore.label,
+                phishingScore: storedScore.phishing_score,
+              };
+            }
+            return email;
+          });
+  
+          setUserMails(emailsWithPhishingScores);
           setEmailsLoaded(true);
         } else {
           console.error("Failed to fetch emails:", response.statusText);
@@ -61,6 +97,7 @@ export const EmailsProvider: React.FC<{}> = ({
       }
     }
   }, [session]);
+  
 
   useEffect(() => {
     if (hasAcceptedScope && !emailsLoaded) {
