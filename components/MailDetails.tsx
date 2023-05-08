@@ -81,7 +81,7 @@ export const MailDetails: React.FC<MailDetailsProps> = ({
           fontStyle: "italic"
         }}
       >
-        Le corps de ce mail n'a pas pu être analysé, le résultat sera moins fiable.
+        Le corps de ce mail n&apos;a pas pu être analysé, le résultat sera moins fiable.
       </Typography>
       }
       

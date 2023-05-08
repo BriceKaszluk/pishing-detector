@@ -1,11 +1,10 @@
-// phishingScore.ts
 import { NextApiRequest, NextApiResponse } from 'next';
 import { Mail } from '../../lib/types';
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
 import { calculatePhishingScore } from './analyzers/calculatePhishingScore';
 import { savePhishingScores } from './analyzers/savePhishingScores';
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const phishingScore = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     const emails: Mail[] = req.body.emails;
 
@@ -43,3 +42,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(405).json({ message: 'Method not allowed' });
   }
 };
+
+export default phishingScore;
