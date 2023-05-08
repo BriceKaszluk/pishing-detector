@@ -1,10 +1,12 @@
 import { useCallback } from "react";
 import { SupabaseClient } from "@supabase/supabase-js";
+import { useLoaderContext } from '../context/LoaderContext';
 
 export const useRequestAdditionalScope = (
   supabaseClient: SupabaseClient,
   hasAcceptedScope: boolean
 ) => {
+  const { setLoading } = useLoaderContext();
   const requestAdditionalScope = useCallback(async () => {
     if (!hasAcceptedScope) {
       try {
@@ -23,6 +25,7 @@ export const useRequestAdditionalScope = (
         if (additionalScopeError) {
           throw additionalScopeError;
         } else {
+          setLoading(false);
           console.log("Additional scope requested successfully");
         }
       } catch (error) {

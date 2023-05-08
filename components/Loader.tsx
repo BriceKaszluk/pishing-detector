@@ -16,7 +16,7 @@ const Loader: React.FC<LoaderProps> = ({ size = 40, thickness = 3.6 }) => {
       alignItems="center"
       width="100%"
       height="100%"
-      marginTop="20px"
+      sx={{ background: "transparent" }}
     >
       <CircularProgress size={size} thickness={thickness} sx={{ color: 'primary.main' }} />
     </Box>

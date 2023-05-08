@@ -76,7 +76,7 @@ export default function PhishingDetector() {
               <Typography
                 variant="body1"
                 color="primary"
-                sx={{ margin: 'auto', width: 'fit-content' }}
+                sx={{ margin: 'auto', width: 'fit-content', paddingBottom: "32px" }}
               >
                 <CheckCircle sx={{ mr: 1, fontSize: 'inherit' }} />
                 Accès autorisé à Gmail

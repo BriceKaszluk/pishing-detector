@@ -10,6 +10,9 @@ module.exports = {
       backgroundImage: {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+          'safe': "url('../assets/safe.png')",
+          'warning': "url('../assets/warning.png')",
+          'danger': "url('../assets/danger.png')",
       },
       backgroundColor: {
         'button': '#0077c2',

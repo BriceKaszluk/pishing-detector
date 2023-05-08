@@ -6,6 +6,7 @@ import MainLayout from '../components/MainLayout';
 import { AppProps } from 'next/app';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { EmailsProvider } from '../context/EmailsContext';
+import { LoaderProvider } from '../context/LoaderContext';
 
 const theme = createTheme({
   palette: {
@@ -36,11 +37,13 @@ export default function MyApp({
       initialSession={pageProps.initialSession}
     >
       <ThemeProvider theme={theme}>
-        <EmailsProvider>
-          <MainLayout>
-            <Component {...pageProps} />
-          </MainLayout>
-        </EmailsProvider>
+        <LoaderProvider>
+          <EmailsProvider>
+            <MainLayout>
+              <Component {...pageProps} />
+            </MainLayout>
+          </EmailsProvider>
+        </LoaderProvider>
       </ThemeProvider>
     </SessionContextProvider>
   );

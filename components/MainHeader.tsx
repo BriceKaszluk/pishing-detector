@@ -12,7 +12,7 @@ import {
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import PhishingDetectorIcon from "@mui/icons-material/Security"; // Import the icon you want to use
+import PhishingDetectorIcon from "@mui/icons-material/Security";
 import { Database } from "../lib/types";
 import { useRouter } from "next/router";
 
