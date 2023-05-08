@@ -61,17 +61,17 @@ export const PaginationControl: React.FC<PaginationControlProps> = ({
 
         <Button
           variant="contained"
-          className="bg-main hover:text-main hover:bg-success text-header"
           onClick={handleButtonClick}
           style={{ width: '200px' }}
         >
+          <div className="bg-main hover:text-main hover:bg-success text-header">
           {
             loading ?
             <Loader size={24} />
             :
             "Lancer l'analyse"
           }
-          
+          </div>
         </Button>
       
     </Box>

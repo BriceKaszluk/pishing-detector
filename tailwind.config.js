@@ -1,6 +1,5 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  purge: {
     content: [
       './pages/**/*.{js,ts,jsx,tsx,mdx}',
       './components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -14,7 +13,6 @@ module.exports = {
         'text-header',
       ],
     },
-  },
   theme: {
     extend: {
       backgroundImage: {
