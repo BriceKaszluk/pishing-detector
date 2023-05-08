@@ -1,4 +1,3 @@
-// components/MailListItem.tsx
 import React from 'react';
 import {
   Button,

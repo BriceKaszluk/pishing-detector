@@ -66,7 +66,25 @@ export const MailDetails: React.FC<MailDetailsProps> = ({
       </Box>
 
       <Typography variant="body1" sx={{ fontWeight: "bold", color: "#0077c2", marginRight: 1, marginBottom: 1 }}>Corps du message :</Typography>
-      <EmailIframe cleanHtmlBody={cleanHtmlBody} />
+      {
+        cleanHtmlBody ?
+        <EmailIframe cleanHtmlBody={cleanHtmlBody} />
+        :
+        <Typography
+        component="p"
+        sx={{
+          fontWeight: "bold",
+          color: "red",
+          marginBottom: 1,
+          marginTop: 1,
+          margin: "auto",
+          fontStyle: "italic"
+        }}
+      >
+        Le corps de ce mail n'a pas pu être analysé, le résultat sera moins fiable.
+      </Typography>
+      }
+      
       {mail.attachments.length > 0 && (
         <>
           <Typography variant="body1">Pièces jointes :</Typography>

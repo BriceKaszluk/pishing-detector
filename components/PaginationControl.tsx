@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Pagination } from "@mui/material";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import Loader from "./Loader"; // Assurez-vous d'importer le composant Loader
+import Loader from "./Loader"; 
 
 interface PaginationControlProps {
   totalPages: number;
@@ -59,20 +59,21 @@ export const PaginationControl: React.FC<PaginationControlProps> = ({
       />
 
 
-        <Button
-          variant="contained"
-          onClick={handleButtonClick}
-          style={{ width: '200px' }}
-        >
-          <div className="bg-main hover:text-main hover:bg-success text-header">
-          {
-            loading ?
-            <Loader size={24} />
-            :
-            "Lancer l'analyse"
-          }
-          </div>
-        </Button>
+<Button
+  variant="contained"
+  onClick={handleButtonClick}
+  style={{ width: '200px', padding: "0" }}
+>
+  <div className="bg-main hover:text-main hover:bg-success text-header w-full h-full py-2 rounded">
+  {
+    loading ?
+    <Loader size={24} />
+    :
+    "Lancer l'analyse"
+  }
+  </div>
+</Button>
+
       
     </Box>
   );
