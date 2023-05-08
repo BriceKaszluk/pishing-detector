@@ -25,14 +25,13 @@ export interface MailListItemProps {
 const getChipBackground = (label: string) => {
   switch (label) {
     case 'danger':
-      return "bg-danger";
+      return 'bg-danger';
     case 'warning':
-      return "bg-warning";
+      return 'bg-warning';
     default:
-      return "bg-safe";
+      return 'bg-safe';
   }
 };
-
 
 export const MailListItem: React.FC<MailListItemProps> = ({
   mail,
@@ -114,31 +113,29 @@ export const MailListItem: React.FC<MailListItemProps> = ({
             <ListItemIcon>
               {mail.phishingLabel ? (
                 <Box sx={{ marginLeft: 1 }}>
-                <Avatar
-                  sx={{
-                    fontWeight: 'bold',
-                    width: 70,
-                    height: 70,
-                    overflow: 'hidden',
-                    backgroundColor: 'transparent',
-                  }}
-                >
-<div
-  className={`${getChipBackground(
-    mail.phishingLabel,
-  )} w-full h-full bg-cover flex justify-center items-center`}
->
-  <span
-    className="bg-white rounded-full w-7 h-7 text-black flex justify-center items-center"
-  >
-    {mail.phishingScore !== undefined ? mail.phishingScore : 'N/A'}
-  </span>
-</div>
-
-
-
-                </Avatar>
-              </Box>
+                  <Avatar
+                    sx={{
+                      fontWeight: 'bold',
+                      width: 70,
+                      height: 70,
+                      overflow: 'hidden',
+                      backgroundColor: 'transparent',
+                    }}
+                  >
+                    <div
+                      className={`${getChipBackground(
+                        mail.phishingLabel,
+                      )} w-full h-full bg-cover flex justify-center items-center`}
+                    >
+                    </div>
+    
+                  </Avatar>
+                  <span className="m-auto  font-bold mt-2 text-black flex justify-center items-center">
+                        {mail.phishingScore !== undefined
+                          ? `${mail.phishingScore}%`
+                          : 'N/A'}
+                      </span>
+                </Box>
               ) : (
                 <Checkbox
                   edge="start"

@@ -50,7 +50,9 @@ export default function PhishingDetector() {
       }
     }
     fetchScope();
-    
+  }, [session]);
+
+  useEffect(() => {
     const acceptedScope = hasAcceptedScope
       ? hasAcceptedScope
       : Boolean(router.query.hasAcceptedScope);
@@ -60,7 +62,8 @@ export default function PhishingDetector() {
       setHasAcceptedScope(true);
       setEmailsLoaded(false);
     }
-  }, [hasAcceptedScope, router.query.hasAcceptedScope, userMails, session]);
+  }, [hasAcceptedScope, router.query.hasAcceptedScope, userMails]);
+
 
   return (
     <Box

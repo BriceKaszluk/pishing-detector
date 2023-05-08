@@ -1,18 +1,28 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    './pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './components/**/*.{js,ts,jsx,tsx,mdx}',
-    './app/**/*.{js,ts,jsx,tsx,mdx}',
-  ],
+  purge: {
+    content: [
+      './pages/**/*.{js,ts,jsx,tsx,mdx}',
+      './components/**/*.{js,ts,jsx,tsx,mdx}',
+      './app/**/*.{js,ts,jsx,tsx,mdx}',
+    ],
+    options: {
+      safelist: [
+        'bg-main',
+        'hover:text-main',
+        'hover:bg-success',
+        'text-header',
+      ],
+    },
+  },
   theme: {
     extend: {
       backgroundImage: {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-          'safe': "url('../assets/safe.png')",
-          'warning': "url('../assets/warning.png')",
-          'danger': "url('../assets/danger.png')",
+        'safe': "url('../assets/safe.png')",
+        'warning': "url('../assets/warning.png')",
+        'danger': "url('../assets/danger.png')",
       },
       backgroundColor: {
         'button': '#0077c2',
