@@ -87,21 +87,29 @@ const PhishingDetectorWithProvider: React.FC = () => (
 );
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
-  const [redirectNoProvider, redirectNoSession] = await Promise.all([
-    checkProviderToken(ctx),
-    checkSession(ctx),
-  ]);
+  try {
+    const [redirectNoProvider, redirectNoSession] = await Promise.all([
+      checkProviderToken(ctx),
+      checkSession(ctx),
+    ]);
 
-  if (redirectNoProvider) {
-    return redirectNoProvider;
-  }
-  if (redirectNoSession) {
-    return redirectNoSession;
-  }
+    if (redirectNoProvider && typeof redirectNoProvider === 'object') {
+      return redirectNoProvider;
+    }
+    if (redirectNoSession && typeof redirectNoSession === 'object') {
+      return redirectNoSession;
+    }
 
-  return {
-    props: {},
-  };
+    return {
+      props: {},
+    };
+  } catch (error) {
+    console.error('Error in getServerSideProps:', error);
+    return {
+      notFound: true,
+    };
+  }
 };
+
 
 export default PhishingDetectorWithProvider;
