@@ -14,7 +14,7 @@ import {
 import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
 import { GetServerSidePropsContext } from "next";
-import { checkProviderToken, checkSession } from "../services/checkAuth";
+import { checkAuth } from '../services/checkAuth';
 
 const Profil: React.FC = () => {
   const user = useUser();
@@ -123,18 +123,20 @@ const Profil: React.FC = () => {
 export default Profil;
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
-  const redirectNoProvider = await checkProviderToken(ctx);
-  if (redirectNoProvider) {
-    return redirectNoProvider;
+  try {
+    const redirectResult = await checkAuth(ctx);
+
+    if (redirectResult && typeof redirectResult === 'object') {
+      return redirectResult;
+    }
+
+    return {
+      props: {},
+    };
+  } catch (error) {
+    console.error('Error in getServerSideProps:', error);
+    return {
+      notFound: true,
+    };
   }
-  const redirectNoSession = await checkSession(ctx);
-  if (redirectNoSession) {
-    return redirectNoSession;
-  }
-
-
-
-  return {
-    props: {},
-  };
 };

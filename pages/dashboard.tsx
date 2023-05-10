@@ -5,6 +5,8 @@ import { ButtonGroup, Grid, Container, Box, Button, Typography } from "@mui/mate
 import { UserStatistics } from "../lib/types";
 import { useSessionContext } from "@supabase/auth-helpers-react";
 import { useLoaderContext } from '../context/LoaderContext';
+import { checkAuth } from '../services/checkAuth';
+import { GetServerSidePropsContext } from 'next';
 
 async function fetchUserStatistics(): Promise<UserStatistics> {
   const response = await fetch("/api/fetch-user-statistics");
@@ -134,6 +136,25 @@ console.log(userStatistics, "userStatistics")
     </Container>
   );
   
+};
+
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+  try {
+    const redirectResult = await checkAuth(ctx);
+
+    if (redirectResult && typeof redirectResult === 'object') {
+      return redirectResult;
+    }
+
+    return {
+      props: {},
+    };
+  } catch (error) {
+    console.error('Error in getServerSideProps:', error);
+    return {
+      notFound: true,
+    };
+  }
 };
 
 export default Dashboard;

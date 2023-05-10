@@ -64,6 +64,7 @@ export const EmailsProvider: React.FC<{}> = ({
 
   const getEmailsFromLastWeekAndUpdateState = useCallback(async () => {
     if (session && !isLoading) {
+      console.log("getEmailsFromLastWeekAndUpdateState")
       setIsLoading(true);
       try {
         const response = await fetch("/api/getMailsList");
@@ -121,7 +122,7 @@ export const EmailsProvider: React.FC<{}> = ({
           return mail;
         }
       });
-      console.log(updatedMails, "updateEmailsWithProbabilities")
+      console.log("updateEmailsWithProbabilities")
       setUserMails(updatedMails);
     },
     [userMails]

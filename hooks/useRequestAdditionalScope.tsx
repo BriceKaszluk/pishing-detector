@@ -1,14 +1,16 @@
 import { useCallback } from "react";
 import { SupabaseClient } from "@supabase/supabase-js";
-import { useLoaderContext } from '../context/LoaderContext';
 
 export const useRequestAdditionalScope = (
   supabaseClient: SupabaseClient,
-  hasAcceptedScope: boolean
+  hasAcceptedScope: boolean,
+  setLoading: (loading: boolean) => void
 ) => {
-  const { setLoading } = useLoaderContext();
+  console.log("user request additional scope");
+
   const requestAdditionalScope = useCallback(async () => {
     if (!hasAcceptedScope) {
+      console.log("launch request additional scope");
       try {
         const { error: additionalScopeError } =
           await supabaseClient.auth.signInWithOAuth({
@@ -36,7 +38,7 @@ export const useRequestAdditionalScope = (
         }
       }
     }
-  }, [supabaseClient, hasAcceptedScope]);
+  }, [supabaseClient, hasAcceptedScope, setLoading]);
 
   return requestAdditionalScope;
 };

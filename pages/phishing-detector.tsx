@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { GetServerSidePropsContext } from 'next';
 import dynamic from 'next/dynamic';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
@@ -7,8 +7,9 @@ import { CheckCircle } from '@mui/icons-material';
 import { useRouter } from 'next/router';
 import { useEmailsContext } from '../context/EmailsContext';
 import { useAcceptedScopes, AcceptedScopesProvider } from '../context/AcceptedScopesContext';
-import { checkProviderToken, checkSession } from '../services/checkAuth';
+import { checkAuth } from '../services/checkAuth';
 import { useRequestAdditionalScope } from '../hooks/useRequestAdditionalScope';
+import { useLoaderContext } from '../context/LoaderContext';
 
 // Utilisation de next/dynamic pour charger les composants à la demande
 const MailList = dynamic(() => import('../components/MailList'));
@@ -18,14 +19,10 @@ function PhishingDetector() {
   const supabaseClient = useSupabaseClient();
   const router = useRouter();
   const { userMails, setEmailsLoaded, setHasAcceptedScope } = useEmailsContext();
+  const { setLoading } = useLoaderContext();
   const { acceptedScopeStatus, hasAcceptedScope } = useAcceptedScopes();
 
-  const requestAdditionalScope = useRequestAdditionalScope(
-    supabaseClient,
-    typeof hasAcceptedScope === 'boolean'
-      ? hasAcceptedScope
-      : Boolean(router.query.hasAcceptedScope),
-  );
+  const requestAdditionalScope = useRequestAdditionalScope(supabaseClient, hasAcceptedScope, setLoading);
 
   useEffect(() => {
     const acceptedScope = hasAcceptedScope
@@ -33,6 +30,7 @@ function PhishingDetector() {
       : Boolean(router.query.hasAcceptedScope);
 
     if (acceptedScope && userMails.length < 1) {
+      console.log("useEffect setEmailsLoaded phishing-detector")
       setHasAcceptedScope(true);
       setEmailsLoaded(false);
     }
@@ -85,16 +83,11 @@ const PhishingDetectorWithProvider: React.FC = () => (
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   try {
-    const [redirectNoProvider, redirectNoSession] = await Promise.all([
-      checkProviderToken(ctx),
-      checkSession(ctx),
-    ]);
+    console.log("getServerSideProps");
+    const redirectResult = await checkAuth(ctx);
 
-    if (redirectNoProvider && typeof redirectNoProvider === 'object') {
-      return redirectNoProvider;
-    }
-    if (redirectNoSession && typeof redirectNoSession === 'object') {
-      return redirectNoSession;
+    if (redirectResult && typeof redirectResult === 'object') {
+      return redirectResult;
     }
 
     return {
@@ -107,5 +100,6 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     };
   }
 };
+
 
 export default PhishingDetectorWithProvider;
