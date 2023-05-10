@@ -33,12 +33,12 @@ export const savePhishingScores = async (
   }
 
   // Si aucune statistique d'utilisateur n'est trouvée, créez-en une nouvelle avec des valeurs initiales calculées
-  let currentStats: UserStatistics;;
+  let currentStats: UserStatistics;
   if (!data || data.length === 0) {
     console.log('No user statistics found for the given user ID. Creating a new record.');
 
-    const initialStats = {
-      user_id: userId,
+    const initialStats: UserStatistics = {
+      user_id: userId, 
       total_emails_week: 0,
       total_emails_all_time: 0,
       safe_week: 0,
@@ -79,7 +79,7 @@ export const savePhishingScores = async (
       throw insertError;
     }
 
-    currentStats = newStats;
+    currentStats = newStats as UserStatistics;
   } else {
     if (data && data.length > 0 && isUserStatistics(data[0])) {
       currentStats = data[0];
