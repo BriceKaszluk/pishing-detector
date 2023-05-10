@@ -51,6 +51,7 @@ const MailList: React.FC = memo(function MailList() {
 
       const data = await response.json();
       updateEmailsWithProbabilities(data);
+      setSelectedMails([]);
     } catch (error) {
       console.error('Failed to analyze emails:', error);
     }
@@ -105,6 +106,7 @@ const MailList: React.FC = memo(function MailList() {
               page={page}
               onPageChange={handlePageChange}
               onButtonClick={analyzeEmails}
+              selectedMails={selectedMails}
             />
           </Box>
         </Grid>

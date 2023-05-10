@@ -86,7 +86,7 @@ export const getEmailsFromLastWeek = async (
     const listRes = await gmail.users.messages.list({
       userId: "me",
       labelIds: ["INBOX"],
-      maxResults: 30,
+      maxResults: 40,
     });
 
     if (!listRes.data.messages) {

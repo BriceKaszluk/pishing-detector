@@ -1,10 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Typography, Button, Container, Grid } from "@mui/material";
 import Link from "next/link";
 import { GetServerSidePropsContext } from "next";
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
-import { useRouter } from "next/router";
-import { useUser } from "@supabase/auth-helpers-react";
 
 const HomePage: React.FC = () => {
 

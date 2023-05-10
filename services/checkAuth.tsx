@@ -5,6 +5,7 @@ export const checkProviderToken = async (
   ctx: GetServerSidePropsContext
 ): Promise<GetServerSidePropsResult<{}> | false> => {
   try {
+    console.log("check")
     const { resolvedUrl } = ctx;
 
     const restrictedUrls = ["dashboard", "phishing-detector", "profil"];

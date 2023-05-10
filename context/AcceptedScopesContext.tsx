@@ -1,19 +1,25 @@
+// AcceptedScopesContext.tsx
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useSessionContext } from '@supabase/auth-helpers-react';
 
 const AcceptedScopesContext = createContext<{
+  acceptedScopeStatus: 'idle' | 'loading' | 'loaded';
   hasAcceptedScope: boolean;
 }>({
+  acceptedScopeStatus: 'idle',
   hasAcceptedScope: false,
 });
 
 export const AcceptedScopesProvider: React.FC = ({ children }) => {
   const { session } = useSessionContext();
   const [hasAcceptedScope, setHasAcceptedScope] = useState(false);
+  const [acceptedScopeStatus, setAcceptedScopeStatus] = useState<'idle' | 'loading' | 'loaded'>('idle');
 
   useEffect(() => {
     async function fetchScope() {
-      if (session) {
+      if (session && acceptedScopeStatus === 'idle') {
+        setAcceptedScopeStatus('loading');
         try {
           const response = await fetch(
             `https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=${session.provider_token}`,
@@ -30,14 +36,16 @@ export const AcceptedScopesProvider: React.FC = ({ children }) => {
           } else {
             console.error('Error:', error);
           }
+        } finally {
+          setAcceptedScopeStatus('loaded');
         }
       }
     }
     fetchScope();
-  }, [session]);
+  }, [session, acceptedScopeStatus]);
 
   return (
-    <AcceptedScopesContext.Provider value={{ hasAcceptedScope }}>
+    <AcceptedScopesContext.Provider value={{ acceptedScopeStatus, hasAcceptedScope }}>
       {children}
     </AcceptedScopesContext.Provider>
   );

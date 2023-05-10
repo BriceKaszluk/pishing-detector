@@ -18,12 +18,19 @@ export default async function handler(
     return;
   }
 
-    // Create authenticated Supabase Client
-    const supabase = createServerSupabaseClient({ req, res });
+  // Vérifiez si l'objet des cookies existe
+  if (!req || !req.headers || !req.headers.cookie) {
+    // Gérer le cas où les cookies sont absents ou indéfinis
+    res.status(401).json({ error: 'Unauthorized' });
+    return;
+  }
 
-    const {
-      data: { session }
-    } = await supabase.auth.getSession();
+  // Créez un client Supabase authentifié
+  const supabase = createServerSupabaseClient({ req, res });
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
 
   if (!session) {
     res.status(401).json({ error: 'Unauthorized' });

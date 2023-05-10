@@ -1,23 +1,24 @@
-import React, { useEffect, lazy, Suspense } from 'react';
+import React, { useEffect } from 'react';
 import { GetServerSidePropsContext } from 'next';
-import { checkProviderToken, checkSession } from '../services/checkAuth';
-import {
-  useSupabaseClient,
-} from '@supabase/auth-helpers-react';
+import dynamic from 'next/dynamic';
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { Box, Button, Typography } from '@mui/material';
 import { CheckCircle } from '@mui/icons-material';
 import { useRouter } from 'next/router';
-import { useRequestAdditionalScope } from '../hooks/useRequestAdditionalScope';
-import Loader from '../components/Loader';
 import { useEmailsContext } from '../context/EmailsContext';
 import { useAcceptedScopes, AcceptedScopesProvider } from '../context/AcceptedScopesContext';
-const MailList = lazy(() => import('../components/MailList'));
+import { checkProviderToken, checkSession } from '../services/checkAuth';
+import { useRequestAdditionalScope } from '../hooks/useRequestAdditionalScope';
+
+// Utilisation de next/dynamic pour charger les composants à la demande
+const MailList = dynamic(() => import('../components/MailList'));
+const Loader = dynamic(() => import('../components/Loader'));
 
 function PhishingDetector() {
   const supabaseClient = useSupabaseClient();
   const router = useRouter();
   const { userMails, setEmailsLoaded, setHasAcceptedScope } = useEmailsContext();
-  const { hasAcceptedScope } = useAcceptedScopes();
+  const { acceptedScopeStatus, hasAcceptedScope } = useAcceptedScopes();
 
   const requestAdditionalScope = useRequestAdditionalScope(
     supabaseClient,
@@ -32,12 +33,10 @@ function PhishingDetector() {
       : Boolean(router.query.hasAcceptedScope);
 
     if (acceptedScope && userMails.length < 1) {
-      // Appelez setEmailsLoaded(false) pour déclencher le chargement des mails
       setHasAcceptedScope(true);
       setEmailsLoaded(false);
     }
   }, [hasAcceptedScope, router.query.hasAcceptedScope, userMails]);
-
 
   return (
     <Box
@@ -46,7 +45,7 @@ function PhishingDetector() {
       alignItems="center"
       sx={{ width: '100%' }}
     >
-      {hasAcceptedScope || router.query.hasAcceptedScope ? (
+      {acceptedScopeStatus === 'loaded' && (hasAcceptedScope || router.query.hasAcceptedScope) ? (
         <Box sx={{ width: '100%' }}>
           {!userMails.length ? (
             <div>
@@ -60,11 +59,9 @@ function PhishingDetector() {
               </Typography>
               <Loader size={50} thickness={5} />
             </div>
-          ) : null}
+          ) : <MailList />}
 
-          <Suspense fallback={<Loader />}>
-            {userMails.length >= 1 ? <MailList /> : null}
-          </Suspense>
+          
         </Box>
       ) : (
         <Button
@@ -110,6 +107,5 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     };
   }
 };
-
 
 export default PhishingDetectorWithProvider;

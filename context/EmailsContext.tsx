@@ -49,15 +49,17 @@ export const EmailsProvider: React.FC<{}> = ({
     const { data, error } = await supabaseClient
       .from('phishing_scores')
       .select('*')
-      .eq('user_id', user_id);
-  console.log(data, "data")
+      .eq('user_id', user_id)
+      .order('created_at', { ascending: false })
+      .limit(40);
+    console.log(data, "data")
     if (error) {
       console.error('Error loading stored phishing scores:', error.message);
       return [];
     }
-  
     return data || [];
   };
+  
   
 
   const getEmailsFromLastWeekAndUpdateState = useCallback(async () => {
