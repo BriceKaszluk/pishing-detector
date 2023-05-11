@@ -14,6 +14,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const { loading, setLoading } = useLoaderContext();
 
   useEffect(() => {
+    console.log(router.events, "l'event router")
     const handleRouteChangeStart = () => {
       setLoading(true);
     };
