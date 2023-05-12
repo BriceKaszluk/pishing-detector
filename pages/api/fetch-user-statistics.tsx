@@ -14,17 +14,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return;
   }
 
+  async function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+  
   async function fetchUserStatistics(userId: string): Promise<UserStatistics | null> {
     const { data, error } = await supabase
       .from("user_statistics")
       .select("*")
       .eq("user_id", userId);
-    
+    console.log(data, "data get")
     if (error) {
       throw error;
     }
     
     if (!data || data.length === 0) {
+      console.log("go to insert")
       const { data: newData, error: newError } = await supabase
         .from("user_statistics")
         .insert({
@@ -38,17 +43,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           warning_all_time: 0,
           danger_all_time: 0,
         })
-        .single();
-    
+        .select()
+        sleep(1000);
+        console.log(newData, "data insert")
       if (newError || !newData) {
         throw newError || new Error("Error creating new statistics");
       }
     
-      return newData as UserStatistics;
+      return newData[0] as UserStatistics;
     }
     
     return data[0] as UserStatistics;
   }
+  
+  
   
   
   try {
