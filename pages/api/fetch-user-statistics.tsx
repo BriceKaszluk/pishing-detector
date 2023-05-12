@@ -18,12 +18,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const { data, error } = await supabase
       .from("user_statistics")
       .select("*")
-      .eq("user_id", userId)
-      .single();
-  
-
-  
-    if (!data) {
+      .eq("user_id", userId);
+    
+    if (error) {
+      throw error;
+    }
+    
+    if (!data || data.length === 0) {
       const { data: newData, error: newError } = await supabase
         .from("user_statistics")
         .insert({
@@ -38,21 +39,25 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           danger_all_time: 0,
         })
         .single();
-  
+    
       if (newError || !newData) {
         throw newError || new Error("Error creating new statistics");
       }
-  
+    
       return newData as UserStatistics;
     }
-  
-    return data as UserStatistics;
+    
+    return data[0] as UserStatistics;
   }
+  
   
   try {
     const userStatistics = await fetchUserStatistics(session.user.id);
     res.status(200).json(userStatistics);
   } catch (error) {
-    res.status(500).json({ error: "Error fetching or creating user statistics" });
-  }
+    res.status(500).json({ 
+        message: "Error fetching or creating user statistics",
+        error: error.message || error
+    });
+}
 }
