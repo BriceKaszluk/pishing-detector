@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useSessionContext, useSupabaseClient } from "@supabase/auth-helpers-react";
 import type { NextPage } from "next";
-import { Button } from "@mui/material";
+import { Button, Typography, Box, Container, Card, CardContent } from "@mui/material";
 
 const SignUpPage: NextPage = () => {
   const { isLoading, session } = useSessionContext();
@@ -10,7 +10,7 @@ const SignUpPage: NextPage = () => {
   const router = useRouter();
 
   const handleSignInWithGoogle = async () => {
-    const { error } = await supabaseClient.auth.signInWithOAuth({ provider: "google",   options: {
+    const { error } = await supabaseClient.auth.signInWithOAuth({ provider: "google", options: {
       redirectTo: `${process.env.NEXT_PUBLIC_HOSTNAME}/dashboard?isConnected=true`,
       queryParams: {
         access_type: 'offline',
@@ -31,19 +31,37 @@ const SignUpPage: NextPage = () => {
 
   if (!session) {
     return (
-      <>
+      <Container maxWidth="sm">
         {isLoading ? <h1>Loading...</h1> : ""}
-        <div className="md:w-4/12 m-auto px-4 min-h-main flex flex-col justify-center">
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleSignInWithGoogle}
-            className="bg-button"
-          >
-            Se connecter avec Google
-          </Button>
-        </div>
-      </>
+        <Box 
+          display="flex" 
+          flexDirection="column" 
+          justifyContent="center" 
+          alignItems="center" 
+          padding={4}
+        >
+          <Card variant="outlined">
+            <CardContent>
+              <Typography variant="h4" gutterBottom style={{ marginBottom: "32px" }}>
+              Bienvenue dans l'Analyseur de Mail
+              </Typography>
+              <Typography variant="body1" style={{ marginBottom: "32px" }}>
+              Pour utiliser notre service d'analyse d'e-mails, vous devez vous connecter avec un compte Gmail. Actuellement, nous sommes uniquement en mesure d'analyser les e-mails provenant de Gmail.
+              </Typography>
+              <Button
+                variant="contained"
+                color="primary"
+                fullWidth
+                onClick={handleSignInWithGoogle}
+                className="bg-button"
+                size="large"
+              >
+                Se connecter avec Google
+              </Button>
+            </CardContent>
+          </Card>
+        </Box>
+      </Container>
     );
   } else {
     return null;

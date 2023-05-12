@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { GetServerSidePropsContext } from 'next';
 import dynamic from 'next/dynamic';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Typography, Container, Card, CardContent } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { useRouter } from 'next/router';
 import { useEmailsContext } from '../context/EmailsContext';
@@ -51,7 +51,7 @@ function PhishingDetector() {
                 color="primary"
                 sx={{ margin: 'auto', width: 'fit-content', paddingBottom: "32px" }}
               >
-                <CheckCircleIcon sx={{ mr: 1, fontSize: 'inherit' }} />
+                <CheckCircleIcon sx={{ mr: 1, fontSize: 'inherit', color: "success" }} />
                 Accès autorisé à Gmail
               </Typography>
               <Loader size={50} thickness={5} />
@@ -61,14 +61,47 @@ function PhishingDetector() {
           
         </Box>
       ) : (
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={requestAdditionalScope}
-          className="bg-button"
-        >
-          Autoriser l&apos;accès à ma boite Gmail
-        </Button>
+        <Container
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Card sx={{ width: '100%', maxWidth: 'sm' }}>
+          <CardContent
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              textAlign: 'center',
+              gap: 2,
+              color: "primary.main"
+            }}
+          >
+            <Typography variant="h3" component="h1">
+              Nous avons besoin de votre permission
+            </Typography>
+            <Typography variant="body1" sx={{ color: "secondary.main" }}>
+              Pour analyser vos emails et vous fournir notre service, nous avons besoin d'un accès supplémentaire à votre boîte Gmail. 
+              Nous tenons à vous assurer que votre sécurité et votre vie privée sont notre priorité. 
+              Aucune de vos données personnelles ne sera stockée ou partagée, et l'accès à votre boîte de réception sera utilisé uniquement pour l'analyse des emails.
+            </Typography>
+            <Box mt={3}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={requestAdditionalScope}
+                className="bg-button"
+              >
+                Autoriser l&apos;accès à ma boite Gmail
+              </Button>
+            </Box>
+          </CardContent>
+        </Card>
+      </Container>
       )}
     </Box>
   );
