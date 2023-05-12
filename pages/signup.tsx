@@ -43,10 +43,10 @@ const SignUpPage: NextPage = () => {
           <Card variant="outlined">
             <CardContent>
               <Typography variant="h4" gutterBottom style={{ marginBottom: "32px" }}>
-              Bienvenue dans l'Analyseur de Mail
+              Bienvenue dans l&aposAnalyseur de Mail
               </Typography>
               <Typography variant="body1" style={{ marginBottom: "32px" }}>
-              Pour utiliser notre service d'analyse d'e-mails, vous devez vous connecter avec un compte Gmail. Actuellement, nous sommes uniquement en mesure d'analyser les e-mails provenant de Gmail.
+              Pour utiliser notre service d&aposanalyse d&apose-mails, vous devez vous connecter avec un compte Gmail. Actuellement, nous sommes uniquement en mesure d&aposanalyser les e-mails provenant de Gmail.
               </Typography>
               <Button
                 variant="contained"

@@ -85,9 +85,9 @@ function PhishingDetector() {
               Nous avons besoin de votre permission
             </Typography>
             <Typography variant="body1" sx={{ color: "secondary.main" }}>
-              Pour analyser vos emails et vous fournir notre service, nous avons besoin d'un accès supplémentaire à votre boîte Gmail. 
+              Pour analyser vos emails et vous fournir notre service, nous avons besoin d&aposun accès supplémentaire à votre boîte Gmail. 
               Nous tenons à vous assurer que votre sécurité et votre vie privée sont notre priorité. 
-              Aucune de vos données personnelles ne sera stockée ou partagée, et l'accès à votre boîte de réception sera utilisé uniquement pour l'analyse des emails.
+              Aucune de vos données personnelles ne sera stockée ou partagée, et l&aposaccès à votre boîte de réception sera utilisé uniquement pour l&aposanalyse des emails.
             </Typography>
             <Box mt={3}>
               <Button
