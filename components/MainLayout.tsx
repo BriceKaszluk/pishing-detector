@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Header from "./MainHeader";
 import Footer from "./Footer";
-import Loader from "./Loader"; // Importez le composant Loader
-import { useRouter } from "next/router"; // Importez useRouter
+import Loader from "./Loader"; 
+import { useRouter } from "next/router";
 import { useLoaderContext } from '../context/LoaderContext';
 
 interface LayoutProps {
@@ -14,7 +14,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const { loading, setLoading } = useLoaderContext();
 
   useEffect(() => {
-    console.log(router.events, "l'event router")
     const handleRouteChangeStart = () => {
       setLoading(true);
     };

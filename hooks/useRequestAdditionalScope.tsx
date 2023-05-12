@@ -6,11 +6,9 @@ export const useRequestAdditionalScope = (
   hasAcceptedScope: boolean,
   setLoading: (loading: boolean) => void
 ) => {
-  console.log("user request additional scope");
 
   const requestAdditionalScope = useCallback(async () => {
     if (!hasAcceptedScope) {
-      console.log("launch request additional scope");
       try {
         const { error: additionalScopeError } =
           await supabaseClient.auth.signInWithOAuth({
@@ -28,7 +26,6 @@ export const useRequestAdditionalScope = (
           throw additionalScopeError;
         } else {
           setLoading(false);
-          console.log("Additional scope requested successfully");
         }
       } catch (error) {
         if (error instanceof Error) {

@@ -30,7 +30,6 @@ function PhishingDetector() {
       : Boolean(router.query.hasAcceptedScope);
 
     if (acceptedScope && userMails.length < 1) {
-      console.log("useEffect setEmailsLoaded phishing-detector")
       setHasAcceptedScope(true);
       setEmailsLoaded(false);
     }
@@ -83,7 +82,6 @@ const PhishingDetectorWithProvider: React.FC = () => (
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   try {
-    console.log("getServerSideProps");
     const redirectResult = await checkAuth(ctx);
 
     if (redirectResult && typeof redirectResult === 'object') {

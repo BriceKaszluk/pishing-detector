@@ -5,7 +5,6 @@ export const checkAuth = async (
   ctx: GetServerSidePropsContext
 ): Promise<GetServerSidePropsResult<{}> | false> => {
   try {
-    console.log("check session and google auth")
     const { resolvedUrl } = ctx;
     const isConnected = ctx.query.isConnected;
 

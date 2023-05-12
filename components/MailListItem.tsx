@@ -10,9 +10,11 @@ import {
   Typography,
   Box,
   Grid,
+  Tooltip,
 } from '@mui/material';
 import { Mail } from '../lib/types';
 import Avatar from '@mui/material/Avatar';
+import InfoIcon from '@mui/icons-material/Info';
 
 export interface MailListItemProps {
   mail: Mail;
@@ -67,7 +69,6 @@ export const MailListItem: React.FC<MailListItemProps> = ({
                     <Typography
                       component="span"
                       sx={{
-                        fontWeight: 'bold',
                         color: '#273142',
                         marginLeft: 1,
                         wordWrap: 'break-word',
@@ -91,7 +92,6 @@ export const MailListItem: React.FC<MailListItemProps> = ({
                     <Typography
                       component="span"
                       sx={{
-                        fontWeight: 'bold',
                         color: '#273142',
                         marginBottom: 1,
                         marginTop: 1,
@@ -125,20 +125,24 @@ export const MailListItem: React.FC<MailListItemProps> = ({
                       className={`${getChipBackground(
                         mail.phishingLabel,
                       )} w-full h-full bg-cover flex justify-center items-center`}
-                    >
-                    </div>
-    
+                    ></div>
                   </Avatar>
-                  <span className="m-auto  font-bold mt-2 text-black flex justify-center items-center">
-                        {mail.phishingScore !== undefined
-                          ? `${mail.phishingScore}%`
-                          : 'N/A'}
-                      </span>
+                  <span className="m-auto font-bold mt-2 text-black flex justify-center items-center">
+                    {mail.phishingScore !== undefined ? (
+                      <Tooltip title="Probabilité de phishing ou spam" enterTouchDelay={0}>
+                        <span className="flex justify-between items-center">
+                          {mail.phishingScore}% <InfoIcon fontSize="small" color="primary" className="ml-1" />
+                        </span>
+                      </Tooltip>
+                    ) : (
+                      'N/A'
+                    )}
+                  </span>
                 </Box>
               ) : (
                 <Checkbox
                   edge="start"
-                  sx={{ '& .MuiSvgIcon-root': { fontSize: 40 } }}
+                  sx={{ '& .MuiSvgIcon-root': { fontSize: 32 } }}
                   checked={isSelected}
                   tabIndex={-1}
                   disableRipple

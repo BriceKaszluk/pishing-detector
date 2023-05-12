@@ -1,141 +1,153 @@
-
-import React, { useEffect, useState } from "react";
-import { Card, Title, DonutChart } from "@tremor/react";
-import { ButtonGroup, Grid, Container, Box, Button, Typography } from "@mui/material";
-import { UserStatistics } from "../lib/types";
-import { useSessionContext } from "@supabase/auth-helpers-react";
+import React, { useEffect, useState } from 'react';
+import { Card, Title, DonutChart } from '@tremor/react';
+import {
+  ButtonGroup,
+  Grid,
+  Container,
+  Box,
+  Button,
+  Typography,
+} from '@mui/material';
+import { UserStatistics } from '../lib/types';
+import { useSessionContext } from '@supabase/auth-helpers-react';
 import { useLoaderContext } from '../context/LoaderContext';
 import { checkAuth } from '../services/checkAuth';
 import { GetServerSidePropsContext } from 'next';
+import Loader from "../components/Loader"; 
 
 async function fetchUserStatistics(): Promise<UserStatistics> {
-  const response = await fetch("/api/fetch-user-statistics");
+  const response = await fetch('/api/fetch-user-statistics');
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.error || "Error fetching user statistics");
+    throw new Error(data.error || 'Error fetching user statistics');
   }
 
   return data as UserStatistics;
 }
 
-
-
 const Dashboard: React.FC = () => {
   const { session } = useSessionContext();
-  const [userStatistics, setUserStatistics] = useState<UserStatistics | null>(null);
+  const [userStatistics, setUserStatistics] = useState<UserStatistics | null>(
+    null,
+  );
   const [fetchError, setFetchError] = useState<string | null>(null);
   const { loading, setLoading } = useLoaderContext();
   const [displayWeek, setDisplayWeek] = useState(true);
-console.log(userStatistics, "userStatistics")
 
   useEffect(() => {
-    if(!userStatistics) {
+    if (!userStatistics) {
       if (!session) return;
 
       setLoading(true);
-       const fetchData = async () => {
-         try {
-           const stats = await fetchUserStatistics();
-           setUserStatistics(stats);
-           setFetchError(null);
-         } catch (error) {
-         if (error instanceof Error) {
-           setFetchError(error.message);
-         } else {
-           console.error("error when fetching user statistics:", error);
-         }
-       } finally {
-           setLoading(false);
-         }
-       };
+      const fetchData = async () => {
+        try {
+          const stats = await fetchUserStatistics();
+          setUserStatistics(stats);
+          setFetchError(null);
+        } catch (error) {
+          if (error instanceof Error) {
+            setFetchError(error.message);
+          } else {
+            console.error('error when fetching user statistics:', error);
+          }
+        } finally {
+          setLoading(false);
+        }
+      };
       fetchData();
     }
-
   }, [session]);
 
-  const generateChartData = () => {
-    if (!userStatistics) return [];
-  
-    const stats = displayWeek
-      ? {
-          safe: userStatistics.safe_week,
-          warning: userStatistics.warning_week,
-          danger: userStatistics.danger_week,
-        }
-      : {
-          safe: userStatistics.safe_all_time,
-          warning: userStatistics.warning_all_time,
-          danger: userStatistics.danger_all_time,
-        };
-  
-    return [
-      { name: "Safe", value: stats.safe, color: "green" },
-      { name: "Warning", value: stats.warning, color: "yellow" },
-      { name: "Danger", value: stats.danger, color: "red" },
-    ];
-  };
-  
-
-  if (!session) {
-    return (
-      <div>
-        <Typography variant="h4">Please sign in to view your dashboard.</Typography>
-      </div>
-    );
-  }
-
-  if (fetchError) {
-    return (
-      <div>
-        <Typography variant="h4">Error: {fetchError}</Typography>
-      </div>
-    );
-  }
-
   if (!userStatistics) {
-    return (
-      <div>
-        <Typography variant="h4">Loading...</Typography>
-      </div>
-    );
+    return <Loader />
   }
+
+  const totalEmails = displayWeek
+    ? userStatistics.total_emails_week
+    : userStatistics.total_emails_all_time;
+  const spamCount = displayWeek
+    ? userStatistics.warning_week + userStatistics.danger_week
+    : userStatistics.warning_all_time + userStatistics.danger_all_time;
+  const spamRate = totalEmails > 0 ? (spamCount / totalEmails) * 100 : 0;
+
+  const chartData = [
+    {
+      label: 'Safe',
+      value: displayWeek
+        ? userStatistics.safe_week
+        : userStatistics.safe_all_time,
+    },
+    {
+      label: 'Warning',
+      value: displayWeek
+        ? userStatistics.warning_week
+        : userStatistics.warning_all_time,
+    },
+    {
+      label: 'Danger',
+      value: displayWeek
+        ? userStatistics.danger_week
+        : userStatistics.danger_all_time,
+    },
+  ];
+
+  const spamRateData = [
+    { label: 'Spam', value: spamRate },
+    { label: 'Non-Spam', value: 100 - spamRate },
+  ];
 
   return (
-    <Container>
-      <Box sx={{ textAlign: "center", marginBottom: 2 }}>
-        <ButtonGroup>
+    <Container   sx={{
+      mb: { xs: 6, sm: 6 },
+    }}>
+      <Box mt={4} mb={4}>
+        <ButtonGroup variant="contained">
           <Button
-            variant={displayWeek ? "contained" : "outlined"}
             onClick={() => setDisplayWeek(true)}
+            className={`text-base ${
+              displayWeek
+                ? 'text-main bg-header'
+                : 'text-header bg-main'
+            } hover:text-main hover:bg-customBackgroundHoverColor`}
           >
-            Week
+            Semaine
           </Button>
+
           <Button
-            variant={!displayWeek ? "contained" : "outlined"}
             onClick={() => setDisplayWeek(false)}
+            className={`text-base ${
+              !displayWeek
+                ? 'text-main bg-header'
+                : 'text-header bg-main'
+            } hover:text-main hover:bg-customBackgroundHoverColor`}
           >
-            All Time
+            Depuis le début
           </Button>
         </ButtonGroup>
       </Box>
-      <Grid container spacing={4}>
+      <Grid container spacing={3}>
         <Grid item xs={12} md={6}>
-        <Card className="max-w-lg">
-    <Title>Sales</Title>
-    <DonutChart
-      className="mt-6"
-      data={generateChartData()}
-      colors={["green", "amber", "red"]}
-    />
-  </Card>
+          <Card>
+            <Title>Total des emails analysés: {totalEmails}</Title>
+            <DonutChart 
+            data={chartData} 
+            colors={["green", "yellow", "red"]}
+            />
+          </Card>
         </Grid>
         <Grid item xs={12} md={6}>
+          <Card>
+            <Title>Taux de spam: {spamRate.toFixed(2)}%</Title>
+            <DonutChart 
+            data={spamRateData} 
+            colors={["red", "green"]}
+            />
+          </Card>
         </Grid>
       </Grid>
     </Container>
   );
-  
 };
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
@@ -158,6 +170,3 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 };
 
 export default Dashboard;
-
-
-

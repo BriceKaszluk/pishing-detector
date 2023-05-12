@@ -52,7 +52,6 @@ export const EmailsProvider: React.FC<{}> = ({
       .eq('user_id', user_id)
       .order('created_at', { ascending: false })
       .limit(40);
-    console.log(data, "data")
     if (error) {
       console.error('Error loading stored phishing scores:', error.message);
       return [];
@@ -64,7 +63,6 @@ export const EmailsProvider: React.FC<{}> = ({
 
   const getEmailsFromLastWeekAndUpdateState = useCallback(async () => {
     if (session && !isLoading) {
-      console.log("getEmailsFromLastWeekAndUpdateState")
       setIsLoading(true);
       try {
         const response = await fetch("/api/getMailsList");
@@ -122,7 +120,6 @@ export const EmailsProvider: React.FC<{}> = ({
           return mail;
         }
       });
-      console.log("updateEmailsWithProbabilities")
       setUserMails(updatedMails);
     },
     [userMails]
