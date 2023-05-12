@@ -46,7 +46,7 @@ const SignUpPage: NextPage = () => {
               Bienvenue dans l&apos;Analyseur de Mail
               </Typography>
               <Typography variant="body1" style={{ marginBottom: "32px" }}>
-              Pour utiliser notre service d&apos;analyse d&apos;e-mails, vous devez vous connecter avec un compte Gmail. Actuellement, nous sommes uniquement en mesure d'analyser les e-mails provenant de Gmail.
+              Pour utiliser notre service d&apos;analyse d&apos;e-mails, vous devez vous connecter avec un compte Gmail. Actuellement, nous sommes uniquement en mesure d&apos;analyser les e-mails provenant de Gmail.
               </Typography>
               <Button
                 variant="contained"
