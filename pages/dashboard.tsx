@@ -1,19 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Title, DonutChart } from '@tremor/react';
-import {
-  ButtonGroup,
-  Grid,
-  Container,
-  Box,
-  Button,
-  Typography,
-} from '@mui/material';
+import { ButtonGroup, Grid, Container, Box, Button } from '@mui/material';
+import Link from 'next/link';
 import { UserStatistics } from '../lib/types';
 import { useSessionContext } from '@supabase/auth-helpers-react';
 import { useLoaderContext } from '../context/LoaderContext';
 import { checkAuth } from '../services/checkAuth';
 import { GetServerSidePropsContext } from 'next';
-import Loader from "../components/Loader"; 
+import Loader from '../components/Loader';
 
 async function fetchUserStatistics(): Promise<UserStatistics> {
   const response = await fetch('/api/fetch-user-statistics');
@@ -60,7 +54,7 @@ const Dashboard: React.FC = () => {
   }, [session]);
 
   if (!userStatistics) {
-    return <Loader />
+    return <Loader />;
   }
 
   const totalEmails = displayWeek
@@ -98,17 +92,17 @@ const Dashboard: React.FC = () => {
   ];
 
   return (
-    <Container   sx={{
-      mb: { xs: 6, sm: 6 },
-    }}>
+    <Container
+      sx={{
+        mb: { xs: 6, sm: 6 },
+      }}
+    >
       <Box mt={4} mb={4}>
         <ButtonGroup variant="contained">
           <Button
             onClick={() => setDisplayWeek(true)}
             className={`text-base ${
-              displayWeek
-                ? 'text-main bg-header'
-                : 'text-header bg-main'
+              displayWeek ? 'text-main bg-header' : 'text-header bg-main'
             } hover:text-main hover:bg-customBackgroundHoverColor`}
           >
             Semaine
@@ -117,9 +111,7 @@ const Dashboard: React.FC = () => {
           <Button
             onClick={() => setDisplayWeek(false)}
             className={`text-base ${
-              !displayWeek
-                ? 'text-main bg-header'
-                : 'text-header bg-main'
+              !displayWeek ? 'text-main bg-header' : 'text-header bg-main'
             } hover:text-main hover:bg-customBackgroundHoverColor`}
           >
             Depuis le début
@@ -128,21 +120,34 @@ const Dashboard: React.FC = () => {
       </Box>
       <Grid container spacing={3}>
         <Grid item xs={12} md={6}>
-          <Card>
+          <Card className="h-full">
             <Title>Total des emails analysés: {totalEmails}</Title>
-            <DonutChart 
-            data={chartData} 
-            colors={["green", "yellow", "red"]}
-            />
+            {totalEmails === 0 ? (
+              <div className="h-full flex justify-center items-center">
+                <Link href="/phishing-detector" className="mb-10">
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    className="bg-button"
+                    size="large"
+                  >
+                    Aller à la détection de phishing
+                  </Button>
+                </Link>
+              </div>
+            ) : (
+              <DonutChart
+                data={chartData}
+                colors={['green', 'yellow', 'red']}
+              />
+            )}
           </Card>
         </Grid>
         <Grid item xs={12} md={6}>
           <Card>
             <Title>Taux de spam: {spamRate.toFixed(2)}%</Title>
-            <DonutChart 
-            data={spamRateData} 
-            colors={["red", "green"]}
-            />
+            <DonutChart data={spamRateData} colors={['red', 'green']} />
           </Card>
         </Grid>
       </Grid>
