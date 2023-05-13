@@ -45,7 +45,7 @@ const TermsOfUse: React.FC = () => {
             <Typography variant="h5">3. Disponibilité du service</Typography>
             <Typography variant="body1" mb={2}>
               Nous ne garantissons pas que le service de détection de phishing
-              sera toujours disponible ou exempt d'erreurs ou de défauts. Nous
+              sera toujours disponible ou exempt d&apos;erreurs ou de défauts. Nous
               ne sommes pas responsables de toute perte ou de tout dommage que
               vous pourriez subir en raison de l&apos;indisponibilité ou du
               dysfonctionnement du service.
