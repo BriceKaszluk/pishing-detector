@@ -7,6 +7,7 @@ import { AppProps } from 'next/app';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { EmailsProvider } from '../context/EmailsContext';
 import { LoaderProvider } from '../context/LoaderContext';
+import { Analytics } from '@vercel/analytics/react';
 
 const theme = createTheme({
   palette: {
@@ -41,6 +42,7 @@ export default function MyApp({
           <EmailsProvider>
             <MainLayout>
               <Component {...pageProps} />
+              <Analytics />
             </MainLayout>
           </EmailsProvider>
         </LoaderProvider>
