@@ -15,19 +15,24 @@ const Footer: React.FC = () => {
               informations en ligne.
             </Typography>
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} sm={6} md={2}>
             <Typography variant="h6" className="text-white mb-4">
               Liens utiles
             </Typography>
             <ul>
               <li>
-                <Link href="/about" className="text-white">
-                  À propos
+                <Link href="/profil" className="text-white">
+                  Profil
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="text-white">
-                  Contact
+                <Link href="/dashboard" className="text-white">
+                  Dashboard
+                </Link>
+              </li>
+              <li>
+                <Link href="/phishing-detector" className="text-white">
+                  Phishing Detector
                 </Link>
               </li>
             </ul>
@@ -38,45 +43,13 @@ const Footer: React.FC = () => {
             </Typography>
             <ul>
               <li>
-                <Link href="/faq" className="text-white">
-                  FAQ
-                </Link>
-              </li>
-              <li>
-                <Link href="/terms" className="text-white">
+                <Link href="/termsOfUse" className="text-white">
                   Conditions d&apos;utilisation
                 </Link>
               </li>
               <li>
-                <Link href="/privacy" className="text-white">
+                <Link href="/privacyPolicy" className="text-white">
                   Politique de confidentialité
-                </Link>
-              </li>
-            </ul>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Typography variant="h6" className="text-white mb-4">
-              Nous suivre
-            </Typography>
-            <ul>
-              <li>
-                <Link
-                  href="https://twitter.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-white"
-                >
-                  Twitter
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="https://www.linkedin.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-white"
-                >
-                  LinkedIn
                 </Link>
               </li>
             </ul>
