@@ -6,7 +6,7 @@ const TermsOfUse: React.FC = () => {
   return (
     <div>
       <Head>
-        <title>Conditions d'utilisation - Phishing Detector</title>
+        <title>Conditions d&apos;utilisation - Phishing Detector</title>
         <meta
           name="description"
           content="Conditions d'utilisation de Phishing Detector"
@@ -22,14 +22,14 @@ const TermsOfUse: React.FC = () => {
         <Card variant="outlined" sx={{ marginTop: 4 }}>
           <CardContent>
             <Typography variant="h4" component="div" gutterBottom>
-              Conditions d'utilisation
+              Conditions d&apos;utilisation
             </Typography>
 
             <Typography variant="h5">1. Acceptation des conditions</Typography>
             <Typography variant="body1" mb={2}>
               En utilisant le service de détection de phishing de Phishing
-              Detector, vous acceptez ces conditions d'utilisation. Si vous
-              n'acceptez pas ces conditions, vous ne devez pas utiliser ce
+              Detector, vous acceptez ces conditions d&apos;utilisation. Si vous
+              n&apos;acceptez pas ces conditions, vous ne devez pas utiliser ce
               service.
             </Typography>
 
@@ -39,7 +39,7 @@ const TermsOfUse: React.FC = () => {
               responsable et conformément à ces conditions et à toutes les lois
               applicables. Vous ne devez pas utiliser le service pour commettre
               une activité illégale ou pour causer des dommages ou des
-              désagréments à d'autres.
+              désagréments à d&apos;autres.
             </Typography>
 
             <Typography variant="h5">3. Disponibilité du service</Typography>
@@ -47,7 +47,7 @@ const TermsOfUse: React.FC = () => {
               Nous ne garantissons pas que le service de détection de phishing
               sera toujours disponible ou exempt d'erreurs ou de défauts. Nous
               ne sommes pas responsables de toute perte ou de tout dommage que
-              vous pourriez subir en raison de l'indisponibilité ou du
+              vous pourriez subir en raison de l&apos;indisponibilité ou du
               dysfonctionnement du service.
             </Typography>
 
@@ -55,7 +55,7 @@ const TermsOfUse: React.FC = () => {
               4. Modifications des conditions
             </Typography>
             <Typography variant="body1" mb={2}>
-              Nous pouvons modifier ces conditions d'utilisation de temps à
+              Nous pouvons modifier ces conditions d&apos;utilisation de temps à
               autre. Si nous apportons des modifications, nous vous en
               informerons en mettant à jour la date en haut de ces conditions
               et, dans certains cas, nous pourrons vous fournir des
@@ -64,8 +64,8 @@ const TermsOfUse: React.FC = () => {
 
             <Typography variant="h5">5. Contact</Typography>
             <Typography variant="body1">
-              Si vous avez des questions sur ces conditions d'utilisation,
-              veuillez nous contacter à [votre adresse email]. Dernière mise à
+              Si vous avez des questions sur ces conditions d&apos;utilisation,
+              veuillez nous contacter à webvista.developpeur@gmail.com. Dernière mise à
               jour : 13/05/2023
             </Typography>
           </CardContent>

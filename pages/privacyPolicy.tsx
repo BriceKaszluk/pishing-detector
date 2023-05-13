@@ -34,12 +34,12 @@ const PrivacyPolicy: React.FC = () => {
               phishing.
             </Typography>
 
-            <Typography variant="h5">2. Collecte d'informations</Typography>
+            <Typography variant="h5">2. Collecte d&apos;informations</Typography>
             <Typography variant="body1" mb={2}>
-              Afin d'analyser les emails pour le phishing, nous devons traiter
+              Afin d&apos;analyser les emails pour le phishing, nous devons traiter
               le contenu de ces emails. Cependant, nous ne conservons pas ces
-              emails après l'analyse. Nous ne recueillons que les informations
-              nécessaires à l'identification de l'utilisateur pour des raisons
+              emails après l&apos;analyse. Nous ne recueillons que les informations
+              nécessaires à l&apos;identification de l&apos;utilisateur pour des raisons
               de sécurité et de suivi.
             </Typography>
 
@@ -58,7 +58,7 @@ const PrivacyPolicy: React.FC = () => {
               Nous utilisons des mesures de sécurité appropriées pour protéger
               vos informations et prévenir leur accès, divulgation, modification
               ou destruction non autorisés. Nous ne partageons pas vos
-              informations avec des tiers, sauf si la loi l'exige.
+              informations avec des tiers, sauf si la loi l&apos;exige.
             </Typography>
 
             <Typography variant="h5">
@@ -67,7 +67,7 @@ const PrivacyPolicy: React.FC = () => {
             <Typography variant="body1" mb={2}>
               Nous pouvons modifier cette politique de confidentialité de temps
               à autre. Si nous apportons des modifications, nous vous en
-              informerons en mettant à jour la date en haut de cette politique
+              informerons en mettant à jour la date en bas de cette politique
               et, dans certains cas, nous pourrons vous fournir des
               notifications supplémentaires.
             </Typography>
@@ -75,7 +75,7 @@ const PrivacyPolicy: React.FC = () => {
             <Typography variant="h5">6. Contact</Typography>
             <Typography variant="body1">
               Si vous avez des questions sur cette politique de confidentialité,
-              veuillez nous contacter à [votre adresse email]. Dernière mise à
+              veuillez nous contacter à webvista.developpeur@gmail.com. Dernière mise à
               jour : 13/05/2023
             </Typography>
           </CardContent>
