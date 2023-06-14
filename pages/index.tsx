@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Button, Grid } from '@mui/material';
+import { Typography, Button } from '@mui/material';
 import Link from 'next/link';
 import { GetServerSidePropsContext } from 'next';
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
@@ -11,11 +11,9 @@ const HomePage: React.FC = () => {
   return (
     <div>
       <div className="flex flex-col justify-center items-center text-center py-8 px-2 bg-wave w-full min-h-[90vh] md:pl-40">
-        <Grid container className="min-h-[60vh]">
-          <Grid
-            item
-            md={6}
-            className="text-gray-800 text-center md:text-left flex flex-col justify-center"
+        <div className="min-h-[60vh] flex md:flex-row flex-col">
+          <div
+            className="text-gray-800 text-center md:text-left flex flex-col justify-center md:w-1/2"
           >
             <Typography
               component="h1"
@@ -31,8 +29,8 @@ const HomePage: React.FC = () => {
               sur ces emails louches. Qui a dit que la sécurité en ligne devait
               être compliquée ? Pas nous !
             </Typography>
-            <Grid container>
-              <Grid item>
+            <div className="flex">
+              <div>
                 <Link href="/signup" passHref>
                   <Button
                     variant="contained"
@@ -43,18 +41,16 @@ const HomePage: React.FC = () => {
                     Vérifier mes mails en toute simplicité
                   </Button>
                 </Link>
-              </Grid>
-            </Grid>
-          </Grid>
+              </div>
+            </div>
+          </div>
 
-          <Grid
-            item
-            md={6}
-            className="text-gray-800 flex justify-center items-center w-full mt-8"
+          <div
+            className="text-gray-800 flex justify-center items-center w-full mt-8 md:w-1/2"
           >
             <div className="bg-hero bg-contain bg-no-repeat w-60 h-60 md:h-5/6 md:w-6/12"></div>
-          </Grid>
-        </Grid>
+          </div>
+        </div>
       </div>
       <HomeSection
         title="Gardez un œil sur vos stats"
