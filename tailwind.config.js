@@ -24,6 +24,8 @@ module.exports = {
         'wave': "url('../assets/Wave-10s-1920px.svg')",
         'hero': "url('../assets/phshing-detector-hero.png')",
         'wave_section': "url('../assets/wave_section.svg')",
+        'video_background': "url('../assets/video_background.png')",
+        'video_background2': "url('../assets/video_background2.png')",
       },
       backgroundColor: {
         'button': '#0077c2',

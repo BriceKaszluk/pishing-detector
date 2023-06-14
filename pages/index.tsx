@@ -18,7 +18,8 @@ const HomePage: React.FC = () => {
             <Typography
               component="h1"
               variant="h2"
-              className="mb-4 capitalize"
+              className="capitalize"
+              sx={{ marginBottom: "16px" }}
               color="primary"
             >
               Soyez malin, pas poisson
