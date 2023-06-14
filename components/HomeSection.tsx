@@ -12,8 +12,8 @@ const Section: React.FC<SectionProps> = ({ title, explanation1, explanation2, vi
   return (
     <div className="md:min-h-screen mb-8 md:mb-0 flex md:flex-row flex-col">
       <div className="text-gray-800 flex flex-col justify-center mt-8 px-2 lg:px-40 md:w-5/12">
-        <Typography variant="h5" className='capitalize mb-8 font-bold'>{title}</Typography>
-        <Typography variant="body1" className='mb-4'>{explanation1}</Typography>
+        <Typography variant="h5" sx={{ marginBottom: "32px" }} className='capitalize font-bold'>{title}</Typography>
+        <Typography variant="body1" sx={{ marginBottom: "16px" }} >{explanation1}</Typography>
         <Typography variant="body1">{explanation2}</Typography>
       </div>
       <div className="text-gray-800 flex justify-center items-center w-full mt-8 px-2 md:w-7/12">

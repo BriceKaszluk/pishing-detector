@@ -19,14 +19,16 @@ const Banner: React.FC<BannerProps> = () => {
                 <Typography
                   component="h1"
                   variant="h3"
-                  className="mb-4 capitalize mb-8"
+                  sx={{ marginBottom: "16px" }}
+                  className="capitalize"
                 >
                   Prenez le contrôle
                 </Typography>
                 <Typography
                   component="h1"
                   variant="h4"
-                  className="mb-4 capitalize mb-8"
+                  sx={{ marginBottom: "32px" }}
+                  className="capitalize"
                 >
                   ne laissez plus les emails suspects ruiner votre tranquillité
                   d&#39;esprit.
