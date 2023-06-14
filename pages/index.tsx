@@ -29,7 +29,7 @@ const HomePage: React.FC = () => {
               sur ces emails louches. Qui a dit que la sécurité en ligne devait
               être compliquée ? Pas nous !
             </Typography>
-            <div className="flex">
+            <div className="m-auto">
               <div>
                 <Link href="/signup" passHref>
                   <Button

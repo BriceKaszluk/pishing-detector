@@ -1,20 +1,14 @@
-import React, { useEffect, useState } from "react";
-import Link from "next/link";
-import Head from "next/head";
-import { useSupabaseClient } from "@supabase/auth-helpers-react";
-import {
-  Button,
-  AppBar,
-  Toolbar,
-  IconButton,
-  Typography,
-} from "@mui/material";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import PhishingDetectorIcon from "@mui/icons-material/Security";
-import { Database } from "../lib/types";
-import { useRouter } from "next/router";
+import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
+import Head from 'next/head';
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import { Button, AppBar, Toolbar, IconButton, Typography } from '@mui/material';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import PhishingDetectorIcon from '@mui/icons-material/Security';
+import { Database } from '../lib/types';
+import { useRouter } from 'next/router';
 
 const MainHeader: React.FC = () => {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -25,7 +19,7 @@ const MainHeader: React.FC = () => {
     const { data: authListener } = supabaseClient.auth.onAuthStateChange(
       (_event, session) => {
         setLoggedIn(!!session);
-      }
+      },
     );
 
     return () => {
@@ -35,7 +29,7 @@ const MainHeader: React.FC = () => {
 
   const handleLogout = async () => {
     await supabaseClient.auth.signOut();
-    router.push("/");
+    router.push('/');
   };
 
   return (
@@ -58,12 +52,18 @@ const MainHeader: React.FC = () => {
               id="main_title"
               variant="h6"
               className="flex-grow"
+              color="white"
             >
               Phishing Detector
             </Typography>
             {!loggedIn ? (
               <>
-                <Button color="inherit" component={Link} href="/signup">
+                <Button
+                  color="inherit"
+                  component={Link}
+                  href="/signup"
+                  style={{ color: 'white' }}
+                >
                   Connexion
                 </Button>
               </>
@@ -75,7 +75,11 @@ const MainHeader: React.FC = () => {
                 <IconButton color="inherit" component={Link} href="/dashboard">
                   <DashboardIcon />
                 </IconButton>
-                <IconButton color="inherit" component={Link} href="/phishing-detector">
+                <IconButton
+                  color="inherit"
+                  component={Link}
+                  href="/phishing-detector"
+                >
                   <PhishingDetectorIcon />
                 </IconButton>
                 <IconButton color="inherit" onClick={handleLogout}>
