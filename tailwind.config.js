@@ -21,6 +21,9 @@ module.exports = {
         'safe': "url('../assets/safe.png')",
         'warning': "url('../assets/warning.png')",
         'danger': "url('../assets/danger.png')",
+        'wave': "url('../assets/Wave-10s-1920px.svg')",
+        'hero': "url('../assets/phshing-detector-hero.png')",
+        'wave_section': "url('../assets/wave_section.svg')",
       },
       backgroundColor: {
         'button': '#0077c2',

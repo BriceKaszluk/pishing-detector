@@ -1,0 +1,24 @@
+<svg viewBox="0 0 2000 1000" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gradient" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="5%" stop-color="#87cefa"></stop>
+      <stop offset="95%" stop-color="#659bbb"></stop>
+    </linearGradient>
+  </defs>
+  
+  <!-- Première vague -->
+  <path d="" stroke="url(#gradient)" stroke-width="5" fill="none" opacity="0.6">
+    <animate attributeName="d" dur="10s" repeatCount="indefinite" keyTimes="0;0.333;0.667;1" calcMode="spline" keySplines="0.5 0 0.5 1;0.5 0 0.5 1;0.5 0 0.5 1" begin="0s" values="M0 500Q 500 500  1000 600T 1500 500T 2000 700;M0 500Q 500 700  1000 500T 1500 700T 2000 600;M0 500Q 500 600  1000 700T 1500 600T 2000 500;M0 500Q 500 500  1000 600T 1500 500T 2000 700"></animate>
+  </path>
+
+  <!-- Deuxième vague -->
+  <path d="" stroke="url(#gradient)" stroke-width="5" fill="none" opacity="0.4">
+    <animate attributeName="d" dur="10s" repeatCount="indefinite" keyTimes="0;0.333;0.667;1" calcMode="spline" keySplines="0.5 0 0.5 1;0.5 0 0.5 1;0.5 0 0.5 1" begin="-5s" values="M0 500Q 500 500  1000 700T 1500 500T 2000 600;M0 500Q 500 600  1000 500T 1500 600T 2000 700;M0 500Q 500 700  1000 600T 1500 700T 2000 500;M0 500Q 500 500  1000 700T 1500 500T 2000 600"></animate>
+  </path>
+
+  <!-- Troisième vague -->
+  <path d="" stroke="url(#gradient)" stroke-width="5" fill="none" opacity="0.2">
+    <animate attributeName="d" dur="10s" repeatCount="indefinite" keyTimes="0;0.333;0.667;1" calcMode="spline" keySplines="0.5 0 0.5 1;0.5 0 0.5 1;0.5 0 0.5 1" begin="-10s" values="M0 500Q 500 700  1000 500T 1500 700T 2000 600;M0 500Q 500 500  1000 600T 1500 500T 2000 700;M0 500Q 500 600  1000 700T 1500 600T 2000 500;M0 500Q 500 700  1000 500T 1500 700T 2000 600"></animate>
+  </path>
+
+</svg>
